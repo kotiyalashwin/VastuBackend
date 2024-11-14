@@ -53,6 +53,7 @@ exports.imageUpload = imageUpload;
 const newFloor = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const body = req.body;
+        const projectId = Number(req.params.projectId);
         const { success } = floorValidation_1.newFloorSchema.safeParse(body);
         if (!success) {
             res.status(500).json({
@@ -66,7 +67,7 @@ const newFloor = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
                 floornumber: floorNumber,
                 floorplan: floorPlan,
                 description: description,
-                projectId: Number(req.projectId),
+                projectId: projectId,
             },
         });
         res.status(200).json({

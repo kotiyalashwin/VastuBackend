@@ -15,7 +15,7 @@ router.use(fileUpload());
 router.post("/image-upload", imageUpload);
 
 //add floor plan
-router.post("/new-floorplan", authmiddleware, projectMiddleware, newFloor);
+router.post("/new-floorplan", authmiddleware, newFloor);
 
 //bulk floor plan
 router.get("/floorplans", authmiddleware, projectMiddleware, getFloorPlans);

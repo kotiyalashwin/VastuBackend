@@ -13,7 +13,7 @@ router.use((0, express_fileupload_1.default)());
 //upload image (form data)
 router.post("/image-upload", floorplanController_1.imageUpload);
 //add floor plan
-router.post("/new-floorplan", authmiddleware_1.default, projectauth_1.projectMiddleware, floorplanController_1.newFloor);
+router.post("/new-floorplan", authmiddleware_1.default, floorplanController_1.newFloor);
 //bulk floor plan
 router.get("/floorplans", authmiddleware_1.default, projectauth_1.projectMiddleware, floorplanController_1.getFloorPlans);
 exports.default = router;

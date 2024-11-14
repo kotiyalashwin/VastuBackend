@@ -36,10 +36,12 @@ const createProject = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             },
             select: {
                 name: true,
+                id: true,
             },
         });
         res.json({
             message: `Project ${project.name} created successfully`,
+            id: `Project ID : ${project.id}`,
         });
     }
     catch (e) {

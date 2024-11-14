@@ -18,7 +18,7 @@ export const projectMiddleware = async (
   }
 
   const project = await prisma.project.findFirst({
-    where: { id: Number(projectId), userId },
+    where: { id: Number(projectId), userId: userId },
   });
 
   if (!project) {

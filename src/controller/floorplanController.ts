@@ -56,6 +56,7 @@ export const newFloor = async (
 ): Promise<void> => {
   try {
     const body = req.body;
+    const projectId = Number(req.params.projectId);
     const { success } = newFloorSchema.safeParse(body);
 
     if (!success) {
@@ -72,7 +73,7 @@ export const newFloor = async (
         floornumber: floorNumber,
         floorplan: floorPlan,
         description: description,
-        projectId: Number(req.projectId),
+        projectId: projectId,
       },
     });
 

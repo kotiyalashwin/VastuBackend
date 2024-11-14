@@ -20,7 +20,7 @@ const projectMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, 
         return;
     }
     const project = yield prisma.project.findFirst({
-        where: { id: Number(projectId), userId },
+        where: { id: Number(projectId), userId: userId },
     });
     if (!project) {
         res
