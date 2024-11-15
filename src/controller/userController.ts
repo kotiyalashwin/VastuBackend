@@ -129,7 +129,7 @@ export const getSession = async (
   res: Response
 ): Promise<void> => {
   try {
-    const userId = req.userId;
+    const userId = req.userId || false;
 
     if (!userId) {
       res.json({

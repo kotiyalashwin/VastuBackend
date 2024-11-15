@@ -40,7 +40,7 @@ export const createProject = async (
 
     res.json({
       message: `Project ${project.name} created successfully`,
-      id: `Project ID : ${project.id}`,
+      id: project.id,
     });
   } catch (e) {
     console.error("Error creating new project:", e);

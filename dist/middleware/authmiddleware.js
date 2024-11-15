@@ -10,9 +10,9 @@ const authmiddleware = (req, res, next) => {
         const token = (_a = req.cookies) === null || _a === void 0 ? void 0 : _a.token;
         //token not present
         if (!token) {
-            res.status(401).json({
-                message: "Unauthorized: No token provided",
-            });
+            // res.status(401).json({
+            //   message: "Unauthorized: No token provided",
+            // });
             res.json({
                 isAuthenticated: false,
             });

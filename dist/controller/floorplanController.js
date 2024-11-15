@@ -53,7 +53,7 @@ exports.imageUpload = imageUpload;
 const newFloor = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const body = req.body;
-        const projectId = Number(req.params.projectId);
+        const projectId = Number(req.params.id);
         const { success } = floorValidation_1.newFloorSchema.safeParse(body);
         if (!success) {
             res.status(500).json({

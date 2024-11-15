@@ -116,7 +116,7 @@ const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.logout = logout;
 const getSession = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const userId = req.userId;
+        const userId = req.userId || false;
         if (!userId) {
             res.json({
                 isAuthenticated: false,

@@ -16,10 +16,9 @@ const authmiddleware = (
 
     //token not present
     if (!token) {
-      res.status(401).json({
-        message: "Unauthorized: No token provided",
-      });
-
+      // res.status(401).json({
+      //   message: "Unauthorized: No token provided",
+      // });
       res.json({
         isAuthenticated: false,
       });
