@@ -10,9 +10,9 @@ const app = (0, express_1.default)();
 const mainRouter = require("./routes/main");
 const port = process.env.PORT || 3000;
 app.use(cors({
-    origin: "*",
+    origin: "http://localhost:5173/",
     credentials: true,
-    methods: ["GET", "POST"],
+    methods: ["GET", "POST", "OPTIONS"],
 }));
 app.use(express_1.default.json());
 app.use(require("cookie-parser")());

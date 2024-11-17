@@ -28,7 +28,6 @@ const projectMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, 
             .json({ message: "Access denied: Project not found or unauthorized" });
         return;
     }
-    req.projectId = projectId;
     next();
 });
 exports.projectMiddleware = projectMiddleware;
