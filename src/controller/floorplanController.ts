@@ -4,6 +4,7 @@ import { UploadedFile } from "express-fileupload";
 import { uploadImageToCloudinary } from "../utils/cloudinaryulpoad";
 import { PrismaClient } from "@prisma/client";
 import { newFloorSchema } from "../validations/floorValidation";
+import { date } from "zod";
 const prisma = new PrismaClient();
 
 export const imageUpload = async (
@@ -93,7 +94,8 @@ export const getFloorPlans = async (
   res: Response
 ): Promise<void> => {
   try {
-    const projectId = Number(req.projectId);
+    console.log;
+    const projectId = Number(req.params.projectId);
 
     if (!projectId) {
       res.status(401).json({
@@ -102,26 +104,33 @@ export const getFloorPlans = async (
       return;
     }
 
-    const floorPlans = prisma.projectFloor.findMany({
-      where: {
-        projectId: projectId,
-      },
-      select: {
-        floornumber: true,
-        floorplan: true,
-      },
-    });
+    prisma.projectFloor
+      .findMany({
+        where: {
+          projectId: projectId,
+        },
+      })
+      .then((data) => {
+        if (!data) {
+          res.status(500).json({
+            message: "No floor plans Found for this project",
+          });
+          return;
+        }
 
-    if (!floorPlans) {
-      res.status(500).json({
-        message: "No floor plans Found for this project",
+        res.json(data);
       });
-      return;
-    }
 
-    res.status(200).json({
-      floorPlans,
-    });
+    // if (!floorPlans) {
+    //   res.status(500).json({
+    //     message: "No floor plans Found for this project",
+    //   });
+    //   return;
+    // }
+
+    // res.status(200).json({
+    //   floorPlans,
+    // });
   } catch (e) {
     console.error("Error retreiving floorplan:", e);
     res.status(500).json({

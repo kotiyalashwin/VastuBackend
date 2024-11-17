@@ -18,6 +18,11 @@ router.post("/image-upload", imageUpload);
 router.post("/new-floorplan/:id", authmiddleware, newFloor);
 
 //bulk floor plan
-router.get("/floorplans", authmiddleware, getFloorPlans);
+router.get(
+  "/floorplans/:projectId",
+  authmiddleware,
+  projectMiddleware,
+  getFloorPlans
+);
 
 export default router;

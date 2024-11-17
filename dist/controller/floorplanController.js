@@ -84,31 +84,38 @@ const newFloor = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.newFloor = newFloor;
 const getFloorPlans = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const projectId = Number(req.projectId);
+        console.log;
+        const projectId = Number(req.params.projectId);
         if (!projectId) {
             res.status(401).json({
                 message: "Unauthorized Request. Please Login/SignUp",
             });
             return;
         }
-        const floorPlans = prisma.projectFloor.findMany({
+        prisma.projectFloor
+            .findMany({
             where: {
                 projectId: projectId,
             },
-            select: {
-                floornumber: true,
-                floorplan: true,
-            },
+        })
+            .then((data) => {
+            if (!data) {
+                res.status(500).json({
+                    message: "No floor plans Found for this project",
+                });
+                return;
+            }
+            res.json(data);
         });
-        if (!floorPlans) {
-            res.status(500).json({
-                message: "No floor plans Found for this project",
-            });
-            return;
-        }
-        res.status(200).json({
-            floorPlans,
-        });
+        // if (!floorPlans) {
+        //   res.status(500).json({
+        //     message: "No floor plans Found for this project",
+        //   });
+        //   return;
+        // }
+        // res.status(200).json({
+        //   floorPlans,
+        // });
     }
     catch (e) {
         console.error("Error retreiving floorplan:", e);
