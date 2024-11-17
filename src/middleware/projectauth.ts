@@ -27,7 +27,5 @@ export const projectMiddleware = async (
       .json({ message: "Access denied: Project not found or unauthorized" });
     return;
   }
-
-  req.projectId = projectId;
   next();
 };
