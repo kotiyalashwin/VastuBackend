@@ -31,8 +31,8 @@ const corsOptions: CorsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.use(express.json());
 app.use(require("cookie-parser")());
+app.use(express.json());
 
 app.use("/api/v1", mainRouter);
 

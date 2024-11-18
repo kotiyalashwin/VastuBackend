@@ -13,7 +13,7 @@ export const setCookie = (res: Response, token: string) => {
   res.cookie("token", token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production", // Only true in production
-    sameSite: "lax",
+    sameSite: "none",
     maxAge: 60 * 60 * 1000, // 1 hour
   });
   console.log("Cookie Sent:", res.getHeaders()["set-cookie"]);
