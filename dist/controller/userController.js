@@ -18,7 +18,6 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const userValidations_1 = require("../validations/userValidations");
 const tokenUtils_1 = require("../utils/tokenUtils");
 const prisma = new client_1.PrismaClient();
-const secret = process.env.JWT_SECRET;
 const signUp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const body = req.body;

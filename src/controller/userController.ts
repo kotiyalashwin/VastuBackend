@@ -9,7 +9,6 @@ import { generateToken, setCookie } from "../utils/tokenUtils";
 import { authRequest } from "../middleware/authmiddleware";
 
 const prisma = new PrismaClient();
-const secret = process.env.JWT_SECRET as string;
 
 export const signUp = async (req: Request, res: Response): Promise<void> => {
   try {
