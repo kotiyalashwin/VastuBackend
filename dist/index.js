@@ -12,7 +12,7 @@ const port = process.env.PORT || 3000;
 const corsOptions = {
     origin: (origin, callback) => {
         // Allow specific origins or all origins
-        const allowedOrigins = ["https://vastu-project.vercel.app/"];
+        const allowedOrigins = ["https://vastu-project.vercel.app"];
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         }
