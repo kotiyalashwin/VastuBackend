@@ -114,7 +114,7 @@ export const logout = async (req: Request, res: Response): Promise<void> => {
     res.clearCookie("token", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production", // only secure in production
-      sameSite: "lax",
+      sameSite: "none",
     });
     res.json({ message: "Logged out successfully" });
   } catch (e) {
