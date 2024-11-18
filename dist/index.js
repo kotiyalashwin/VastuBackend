@@ -35,8 +35,8 @@ const corsOptions = {
     optionsSuccessStatus: 204, // For legacy browsers that choke on 204
 };
 app.use((0, cors_1.default)(corsOptions));
-app.use(express_1.default.json());
 app.use(require("cookie-parser")());
+app.use(express_1.default.json());
 app.use("/api/v1", mainRouter);
 app.listen(port, () => {
     console.log(`Vastu Backend Running on port ${port} `);
