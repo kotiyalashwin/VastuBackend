@@ -8,6 +8,7 @@ const authmiddleware = (req, res, next) => {
     var _a;
     try {
         const token = (_a = req.cookies) === null || _a === void 0 ? void 0 : _a.token;
+        console.log(token);
         //token not present
         if (!token) {
             // res.status(401).json({
