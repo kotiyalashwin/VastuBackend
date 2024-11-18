@@ -13,6 +13,7 @@ const authmiddleware = (
 ) => {
   try {
     const token = req.cookies?.token;
+    console.log(token);
 
     //token not present
     if (!token) {
