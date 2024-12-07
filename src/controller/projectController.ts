@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { newProjectSchema } from "../validations/projectValid";
 import { NewProjectNumber } from "../utils/projectNumber";
-import { Request, Response } from "express";
+import { Response } from "express";
 import { authRequest } from "../middleware/authmiddleware";
 
 const prisma = new PrismaClient();
@@ -11,8 +11,16 @@ export const createProject = async (
   req: authRequest,
   res: Response
 ): Promise<void> => {
-  const userId = Number(req.userId); // From auth middleware
+  const userId = req.userId as string; // From auth middleware
   const body = req.body;
+  const role = req.role;
+
+  if (role === "CONSULTANT") {
+    res.status(403).json({
+      message: "A consultant cannot create new projects",
+    });
+    return;
+  }
 
   const { success } = newProjectSchema.safeParse(body);
 
@@ -22,7 +30,27 @@ export const createProject = async (
       return;
     }
 
+    console.log(body.consultantid);
+
+    if (body.consultantid) {
+      const consultant = await prisma.consultant.findUnique({
+        where: {
+          uniqueId: body.consultantid,
+        },
+      });
+
+      console.log(consultant);
+
+      if (!consultant) {
+        res.status(404).json({
+          error: "No consultant for this Id",
+        });
+        return;
+      }
+    }
+
     const newProjectNumber = await NewProjectNumber(userId);
+    // const newProjectNumber = 10;
     const project = await prisma.project.create({
       data: {
         name: body.name,
@@ -31,6 +59,7 @@ export const createProject = async (
         address: body.address,
         userId: userId,
         projectnumber: newProjectNumber,
+        ...(body.consultantid && { consultantId: body.consultantid }),
       },
       select: {
         name: true,
@@ -55,54 +84,111 @@ export const getCreatedProjects = async (
   req: authRequest,
   res: Response
 ): Promise<void> => {
-  const userID = Number(req.userId); // From auth middleware
-  const projectnum = req.params.projectnum
-    ? Number(req.params.projectnum)
-    : undefined;
+  const userID = String(req.userId); // From auth middleware
+  const role = req.role;
 
   try {
-    if (!userID) {
+    if (!userID || !role) {
       res.json({ message: "Invalid User" });
       return;
     }
 
-    if (!projectnum) {
-      const projects = await prisma.project.findMany({
+    if (role === "USER") {
+      const project = await prisma.project.findMany({
         where: {
           userId: userID,
         },
       });
-      res.json(projects);
-      return;
-    }
+      if (!project) {
+        res.status(500).json({
+          message: "No project found",
+        });
+        return;
+      }
 
-    const project = await prisma.project.findUnique({
-      where: {
-        projectnumber: projectnum,
-        userId: userID,
-      },
-      select: {
-        name: true,
-        createdAt: true,
-        user: {
-          select: {
-            name: true,
+      res.json(project);
+    } else if (role === "CONSULTANT") {
+      const project = await prisma.project.findMany({
+        where: {
+          consultant: {
+            id: userID,
           },
         },
-        numFloors: true,
-      },
-    });
+      });
+      if (!project) {
+        res.status(500).json({
+          message: "No project found",
+        });
+        return;
+      }
 
-    if (!project) {
+      res.json(project);
+    }
+  } catch (e) {
+    console.error("Error Retrieving Projects:", e);
+    res.status(500).json({ message: "Error in Projects Route" });
+  }
+};
+
+export const selectForReview = async (req: authRequest, res: Response) => {
+  try {
+    const projectId = Number(req.params.projectId);
+    const consUID = req.consUID;
+
+    if (!projectId) {
       res.status(500).json({
-        message: "No project found",
+        message: "project Id is required",
       });
       return;
     }
 
-    res.json(project);
+    console.log(consUID);
+    if (!consUID) {
+      res.status(403).json({
+        message: "Not a Valid User/Consultant ID invalid",
+      });
+      return;
+    }
+
+    await prisma.project.update({
+      where: { id: projectId, consultantId: consUID },
+      data: { status: "REVIEWING" },
+    });
+
+    res.status(200).json({
+      message: "Successfully selected project for review",
+    });
   } catch (e) {
-    console.error("Error Retrieving Projects:", e);
-    res.status(500).json({ message: "Error in Projects Route" });
+    res.status(500).json({
+      message: "Unable to Select For review",
+    });
+  }
+};
+
+export const deleteProject = async (req: authRequest, res: Response) => {
+  try {
+    const projectId = Number(req.params.projectId);
+
+    if (req.role === "CONSULTANT") {
+      throw new Error("UnAuthorized");
+    }
+
+    const projectExist = await prisma.project.findUnique({
+      where: { id: projectId },
+    });
+
+    if (!projectExist) {
+      throw new Error("No such project");
+    }
+
+    await prisma.project.delete({
+      where: { id: projectId },
+    });
+
+    res.json({
+      message: "Project Deleted Successfully",
+    });
+  } catch (e) {
+    throw new Error("Error Deleting Project");
   }
 };

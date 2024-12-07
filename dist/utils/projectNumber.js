@@ -17,6 +17,7 @@ function NewProjectNumber(userId) {
         const oldproject = yield prisma.project.findFirst({
             where: { userId: userId },
             orderBy: { projectnumber: "desc" },
+            include: { user: true },
         });
         const newProjectNumber = oldproject ? oldproject.projectnumber + 1 : 1;
         return newProjectNumber;

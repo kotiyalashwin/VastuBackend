@@ -17,6 +17,7 @@ const client_1 = require("@prisma/client");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const userValidations_1 = require("../validations/userValidations");
 const tokenUtils_1 = require("../utils/tokenUtils");
+const createAccount_1 = require("../utils/createAccount");
 const prisma = new client_1.PrismaClient();
 const signUp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -26,25 +27,24 @@ const signUp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             res.json({ err: "Invalid Request" });
             return;
         }
-        const { success } = userValidations_1.userSignUpSchema.safeParse(body);
+        const { success } = userValidations_1.AccountSignUpSchema.safeParse(body);
         if (!success) {
             res.json({ err: "Invalid Inputs" });
             return;
         }
-        // Hash the password before saving
-        const hashedpass = yield bcrypt_1.default.hash(body.password, 10);
-        // Create a new user in the database
-        const user = yield prisma.user.create({
-            select: {
-                id: true,
-            },
-            data: Object.assign({ name: body.name, email: body.email, password: hashedpass }, (body.phone && { phone: body.phone })),
-        });
-        // Generate a JWT token for the new user
-        const token = (0, tokenUtils_1.generateToken)(user.id);
-        // Set the token in the response cookie
-        (0, tokenUtils_1.setCookie)(res, token);
-        // Send success message
+        const account = yield (0, createAccount_1.createAccount)(body, res);
+        if ((account === null || account === void 0 ? void 0 : account.role) === "USER" && account.userId) {
+            const role = (0, tokenUtils_1.generateToken)(account.role);
+            const token = (0, tokenUtils_1.generateToken)(account.userId);
+            (0, tokenUtils_1.setRoleCookie)(res, role);
+            (0, tokenUtils_1.setTokenCookie)(res, token);
+        }
+        else if ((account === null || account === void 0 ? void 0 : account.role) === "CONSULTANT" && account.consultantId) {
+            const role = (0, tokenUtils_1.generateToken)(account.role);
+            const token = (0, tokenUtils_1.generateToken)(account.consultantId);
+            (0, tokenUtils_1.setRoleCookie)(res, role);
+            (0, tokenUtils_1.setTokenCookie)(res, token);
+        }
         res.status(200).json({
             message: "User created successfully",
         });
@@ -59,6 +59,7 @@ const signUp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.signUp = signUp;
 const signIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
     const body = req.body;
     const { success } = userValidations_1.userSignInSchema.safeParse(body);
     if (!success) {
@@ -68,28 +69,50 @@ const signIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         return;
     }
     try {
-        // Check if the user exists and if they are active
-        const user = yield prisma.user.findUnique({
-            where: { email: body.email, active: true },
+        const account = yield prisma.account.findUnique({
+            where: {
+                email: body.email,
+            },
+            include: { user: true, consultant: true },
         });
-        if (!user) {
-            res.status(401).json({
-                message: "Invalid email or password",
+        if (!account) {
+            res.status(404).json({
+                message: "No Account for this Id",
             });
             return;
         }
-        // Compare the provided password with the stored hash
-        const passwordValid = yield bcrypt_1.default.compare(body.password, user.password);
-        if (!passwordValid) {
-            res.status(401).json({ message: "Invalid email or password" });
+        if ((account === null || account === void 0 ? void 0 : account.role) === "USER" && account.user) {
+            const passwordValid = yield bcrypt_1.default.compare(body.password, (_a = account.user) === null || _a === void 0 ? void 0 : _a.password);
+            if (!passwordValid) {
+                res.status(401).json({
+                    message: "Invalid Credentials",
+                });
+                return;
+            }
+            const role = (0, tokenUtils_1.generateToken)(account.role);
+            const token = (0, tokenUtils_1.generateToken)(account.user.id);
+            (0, tokenUtils_1.setRoleCookie)(res, role);
+            (0, tokenUtils_1.setTokenCookie)(res, token);
+            res.status(200).json({ message: "Success" });
             return;
         }
-        // Generate a JWT token for the user
-        const token = (0, tokenUtils_1.generateToken)(user.id);
-        // Set the token in the response cookie
-        (0, tokenUtils_1.setCookie)(res, token);
+        else if ((account === null || account === void 0 ? void 0 : account.role) === "CONSULTANT" && account.consultant) {
+            const passwordValid = yield bcrypt_1.default.compare(body.password, (_b = account.consultant) === null || _b === void 0 ? void 0 : _b.password);
+            if (!passwordValid) {
+                res.status(401).json({
+                    message: "Invalid Credentials",
+                });
+                return;
+            }
+            const role = (0, tokenUtils_1.generateToken)(account.role);
+            const token = (0, tokenUtils_1.generateToken)(account.consultant.id);
+            const uid = (0, tokenUtils_1.generateToken)(account.consultant.uniqueId);
+            (0, tokenUtils_1.setRoleCookie)(res, role);
+            (0, tokenUtils_1.setTokenCookie)(res, token);
+            (0, tokenUtils_1.setUIDCookie)(res, uid);
+            res.status(200).json({ message: "Success" });
+        }
         // Send success message
-        res.status(200).json({ message: "Success" });
     }
     catch (e) {
         console.error("Sign-in error:", e);
@@ -98,6 +121,7 @@ const signIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.signIn = signIn;
 const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     try {
         // Clear the token cookie upon logout
         res.clearCookie("token", {
@@ -105,6 +129,18 @@ const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             secure: process.env.NODE_ENV === "production", // only secure in production
             sameSite: "none",
         });
+        res.clearCookie("role", {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "none",
+        });
+        if ((_a = req.cookies) === null || _a === void 0 ? void 0 : _a.uid) {
+            res.clearCookie("uid", {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === "production",
+                sameSite: "none",
+            });
+        }
         res.json({ message: "Logged out successfully" });
     }
     catch (e) {
@@ -115,26 +151,54 @@ const logout = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.logout = logout;
 const getSession = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const userId = req.userId || false;
-        if (!userId) {
+        const userId = req.userId;
+        const role = req.role;
+        if (!userId || !role) {
             res.json({
+                message: "session error : userId or role not in reques",
                 isAuthenticated: false,
             });
             return;
         }
-        const user = yield prisma.user.findUnique({
-            where: { id: Number(userId) },
-        });
-        if (!user) {
-            res.json({
-                isAuthenticated: false,
+        // console.log(role);
+        if (role === "USER") {
+            const account = yield prisma.account.findFirst({
+                where: { userId: userId },
+                include: { user: true, consultant: true },
             });
-            return;
+            if (!account || !role) {
+                console.log("no account");
+                res.json({
+                    isAuthenticated: false,
+                });
+                return;
+            }
+            res.json({
+                username: account.name,
+                userRole: account.role,
+                isAuthenticated: true,
+            });
         }
-        res.json({
-            username: user.name,
-            isAuthenticated: true,
-        });
+        else if (role === "CONSULTANT") {
+            console.log(role);
+            console.log(userId);
+            const account = yield prisma.account.findFirst({
+                where: { consultantId: userId },
+                include: { user: true, consultant: true },
+            });
+            if (!account || !role) {
+                console.log("no account");
+                res.json({
+                    isAuthenticated: false,
+                });
+                return;
+            }
+            res.json({
+                username: account.name,
+                userRole: account.role,
+                isAuthenticated: true,
+            });
+        }
     }
     catch (e) {
         console.error("Session error:", e);

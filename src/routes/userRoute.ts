@@ -1,10 +1,10 @@
 import express from "express";
 import authmiddleware, { authRequest } from "../middleware/authmiddleware";
 import {
+  signUp,
+  signIn,
   getSession,
   logout,
-  signIn,
-  signUp,
 } from "../controller/userController";
 
 const router = express.Router();

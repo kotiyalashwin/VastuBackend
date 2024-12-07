@@ -8,19 +8,41 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role{
+  USER
+  CONSULTANT
+}
 
-model User{
-  id        Int @id @default(autoincrement())
-  name      String 
-  email     String @unique
-  phone     String?
-  password  String 
-  createdAt DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  active       Boolean @default(true)
+model Account {
+  id           String      @id @default(cuid())
+  email        String      @unique
+  name         String
+  role         Role
+  user         User?       @relation(fields: [userId], references: [id])
+  userId       String?      @unique
+  consultant   Consultant? @relation(fields: [consultantId], references: [id])
+  consultantId String?    @unique
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}
 
-  //Relation
-  project Project[]
+model User {
+  id        String    @id @default(cuid())
+  name      String  
+  email        String   @unique
+  password     String
+  accounts  Account[]
+  project   Project[]
+}
+
+model Consultant {
+  id         String    @id @default(cuid())
+  name       String
+  email        String @unique
+  password     String
+  accounts   Account[]
+  uniqueId   String    @unique @default(cuid())
+  project   Project[]
 }
 
 
@@ -29,28 +51,38 @@ model Project{
   name        String
   type        String
   numFloors   Int?
-  userId      Int 
+  userId      String 
   projectnumber Int @unique
-  //consultantId
+  consultantId String?
   address     String 
   floors      ProjectFloor[]
   createdAt   DateTime  @default(now())
   modified    Boolean   @default(false)
+  status      Status    @default(NEW)
 
   //Relation 
   user        User      @relation(fields: [userId] , references: [id])
-
-}
-
+ consultant Consultant? @relation(fields: [consultantId], references: [uniqueId])
+} 
 
 model ProjectFloor{
   id            Int         @id @default(autoincrement())
   floornumber   Int 
   description   String?
-  floorplan     String        //url for image or id of image
+  raw_img       String   @default("")
+  marked_img    String   @default("")
+  annotated_img String?
+
   projectId     Int
   //projectReport
 
   //Relation
-  project       Project     @relation(fields: [projectId] , references: [id])
+  project       Project     @relation(fields: [projectId] , references: [id] , onDelete: Cascade)
+}
+
+enum Status{
+  NEW
+  SUBMITTED
+  REVIEWING
+  COMPLETED
 }

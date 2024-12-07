@@ -1,19 +1,19 @@
-import { Response } from "express";
+import { Response, Request } from "express";
 import { authRequest } from "../middleware/authmiddleware";
 import { UploadedFile } from "express-fileupload";
 import { uploadImageToCloudinary } from "../utils/cloudinaryulpoad";
 import { PrismaClient } from "@prisma/client";
 import { newFloorSchema } from "../validations/floorValidation";
-import { date } from "zod";
+
 const prisma = new PrismaClient();
 
 export const imageUpload = async (
-  req: authRequest,
+  req: Request,
   res: Response
 ): Promise<void> => {
   try {
     console.log(req.body);
-    const { userName, projectName } = req.body;
+    const { userName, projectName, floorNum } = req.body;
     // console.log(req.files);
 
     if (!req.files || !req.files.image) {
@@ -34,7 +34,7 @@ export const imageUpload = async (
       ? file[0].data
       : (file as UploadedFile).data;
 
-    const folderPath = `VastuProject/${userName}/${projectName}`;
+    const folderPath = `VastuProject/${userName}/${projectName}/${floorNum}`;
 
     const uploadResult = await uploadImageToCloudinary(imageBuffer, folderPath);
 
@@ -57,7 +57,7 @@ export const newFloor = async (
 ): Promise<void> => {
   try {
     const body = req.body;
-    const projectId = Number(req.params.id);
+    const projectId = req.params.id;
     const { success } = newFloorSchema.safeParse(body);
 
     if (!success) {
@@ -67,14 +67,24 @@ export const newFloor = async (
       return;
     }
 
-    const { floorNumber, floorPlan, description } = body;
+    const { rawImg, markedImg, floorNumber, annotatedImg, description } = body;
 
-    const newFloor = await prisma.projectFloor.create({
+    // try {
+    await prisma.projectFloor.create({
       data: {
         floornumber: floorNumber,
-        floorplan: floorPlan,
+        raw_img: rawImg,
+        marked_img: markedImg,
         description: description,
-        projectId: projectId,
+        annotated_img: annotatedImg,
+        projectId: Number(projectId),
+      },
+    });
+
+    await prisma.project.update({
+      where: { id: Number(projectId) },
+      data: {
+        status: "SUBMITTED",
       },
     });
 
@@ -94,7 +104,6 @@ export const getFloorPlans = async (
   res: Response
 ): Promise<void> => {
   try {
-    console.log;
     const projectId = Number(req.params.projectId);
 
     if (!projectId) {

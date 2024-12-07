@@ -17,7 +17,7 @@ const prisma = new client_1.PrismaClient();
 const imageUpload = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         console.log(req.body);
-        const { userName, projectName } = req.body;
+        const { userName, projectName, floorNum } = req.body;
         // console.log(req.files);
         if (!req.files || !req.files.image) {
             res.status(400).json({ message: "File is required" });
@@ -34,7 +34,7 @@ const imageUpload = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         const imageBuffer = Array.isArray(file)
             ? file[0].data
             : file.data;
-        const folderPath = `VastuProject/${userName}/${projectName}`;
+        const folderPath = `VastuProject/${userName}/${projectName}/${floorNum}`;
         const uploadResult = yield (0, cloudinaryulpoad_1.uploadImageToCloudinary)(imageBuffer, folderPath);
         res.status(200).json({
             message: "Image uploaded successfully",
@@ -53,7 +53,7 @@ exports.imageUpload = imageUpload;
 const newFloor = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const body = req.body;
-        const projectId = Number(req.params.id);
+        const projectId = req.params.id;
         const { success } = floorValidation_1.newFloorSchema.safeParse(body);
         if (!success) {
             res.status(500).json({
@@ -61,13 +61,22 @@ const newFloor = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             });
             return;
         }
-        const { floorNumber, floorPlan, description } = body;
-        const newFloor = yield prisma.projectFloor.create({
+        const { rawImg, markedImg, floorNumber, annotatedImg, description } = body;
+        // try {
+        yield prisma.projectFloor.create({
             data: {
                 floornumber: floorNumber,
-                floorplan: floorPlan,
+                raw_img: rawImg,
+                marked_img: markedImg,
                 description: description,
-                projectId: projectId,
+                annotated_img: annotatedImg,
+                projectId: Number(projectId),
+            },
+        });
+        yield prisma.project.update({
+            where: { id: Number(projectId) },
+            data: {
+                status: "SUBMITTED",
             },
         });
         res.status(200).json({
@@ -84,7 +93,6 @@ const newFloor = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 exports.newFloor = newFloor;
 const getFloorPlans = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log;
         const projectId = Number(req.params.projectId);
         if (!projectId) {
             res.status(401).json({

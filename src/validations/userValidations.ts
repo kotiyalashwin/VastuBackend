@@ -1,10 +1,11 @@
 import Zod from "zod";
 
-export const userSignUpSchema = Zod.object({
+export const AccountSignUpSchema = Zod.object({
   name: Zod.string(),
   email: Zod.string().email(),
   phone: Zod.string().optional(),
   password: Zod.string().min(6),
+  role: Zod.string(),
 });
 
 export const userSignInSchema = Zod.object({
@@ -12,4 +13,4 @@ export const userSignInSchema = Zod.object({
   password: Zod.string().min(6),
 });
 
-export type signUpInput = Zod.infer<typeof userSignUpSchema>;
+export type signUpInput = Zod.infer<typeof AccountSignUpSchema>;
