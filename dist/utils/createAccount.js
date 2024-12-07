@@ -19,11 +19,11 @@ const consultantUniqueId_1 = require("./consultantUniqueId");
 const tokenUtils_1 = require("./tokenUtils");
 const prisma = new client_1.PrismaClient();
 const createAccount = (body, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b;
+    var _a;
     // const { email } = body.email;
-    const existing = yield ((_a = prisma.account) === null || _a === void 0 ? void 0 : _a.findUnique({
+    const existing = yield prisma.account.findUnique({
         where: { email: body.email },
-    }));
+    });
     if (existing) {
         res.json({
             error: "User Alreaddy Exist",
@@ -67,7 +67,7 @@ const createAccount = (body, res) => __awaiter(void 0, void 0, void 0, function*
                 consultant: true,
             },
         });
-        if ((_b = account.consultant) === null || _b === void 0 ? void 0 : _b.id) {
+        if ((_a = account.consultant) === null || _a === void 0 ? void 0 : _a.id) {
             const uniqueId = (0, consultantUniqueId_1.generateUniqueId)(account.consultant.name.slice(0, 3));
             // Update the consultant with uniqueId
             yield prisma.consultant.update({
