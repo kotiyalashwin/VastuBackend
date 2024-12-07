@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 
 export const createAccount = async (body: any, res: Response) => {
   // const { email } = body.email;
-  const existing = await prisma.account.findUnique({
+  const existing = await prisma.account?.findUnique({
     where: { email: body.email },
   });
 
