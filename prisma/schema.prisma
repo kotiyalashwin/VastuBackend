@@ -72,7 +72,7 @@ model ProjectFloor{
   raw_img       String   @default("")
   marked_img    String   @default("")
   annotated_img String?
-  annotations   Json
+  annotations   Json?
 
   projectId     Int
   // reportId     ProjectReport?
