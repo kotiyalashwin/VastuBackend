@@ -70,6 +70,8 @@ export const newFloor = async (
     const { rawImg, markedImg, floorNumber, annotatedImg, description, rooms } =
       body;
 
+    console.log(rooms);
+
     // try {
     await prisma.projectFloor.create({
       data: {

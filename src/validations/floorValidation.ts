@@ -1,6 +1,15 @@
 import { string, z } from "zod";
 
-const newRoom = z.object({});
+const newRoom = z.object({
+  angle: z.number(),
+  height: z.number(),
+  note: z.string(),
+  orentation: z.string(),
+  startX: z.number(),
+  startY: z.number(),
+  text: z.string(),
+  width: z.number(),
+});
 
 export const newFloorSchema = z.object({
   floorNumber: z.number(),
