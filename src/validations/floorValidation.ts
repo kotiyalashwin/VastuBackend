@@ -8,7 +8,7 @@ export const newFloorSchema = z.object({
   rawImg: z.string().url(),
   markedImg: z.string().url(),
   annotatedImg: z.string().url().optional(),
-  room: newRoom.array(),
+  room: z.array(newRoom).optional(),
 });
 
 export type newFloorEntities = z.infer<typeof newFloorSchema>;
