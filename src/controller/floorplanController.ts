@@ -67,7 +67,8 @@ export const newFloor = async (
       return;
     }
 
-    const { rawImg, markedImg, floorNumber, annotatedImg, description } = body;
+    const { rawImg, markedImg, floorNumber, annotatedImg, description, rooms } =
+      body;
 
     // try {
     await prisma.projectFloor.create({
@@ -78,6 +79,7 @@ export const newFloor = async (
         description: description,
         annotated_img: annotatedImg,
         projectId: Number(projectId),
+        annotations: rooms,
       },
     });
 
@@ -127,7 +129,7 @@ export const getFloorPlans = async (
           return;
         }
 
-        res.json(data);
+        res.json(data); // floorId
       });
 
     // if (!floorPlans) {

@@ -72,13 +72,25 @@ model ProjectFloor{
   raw_img       String   @default("")
   marked_img    String   @default("")
   annotated_img String?
+  annotations   Json
 
   projectId     Int
+  // reportId     ProjectReport?
   //projectReport
 
   //Relation
   project       Project     @relation(fields: [projectId] , references: [id] , onDelete: Cascade)
 }
+
+
+
+
+// model ProjectReport{
+//   id          Int @id @default(autoincrement())
+//   floorId     Int  @unique
+//   floor       ProjectFloor  @relation(fields: [floorId] , references: [id])
+  
+// } 
 
 enum Status{
   NEW
