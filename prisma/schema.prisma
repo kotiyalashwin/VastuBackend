@@ -72,6 +72,7 @@ model ProjectFloor{
   annotated_img String?
   annotations   Json?
   projectId     Int
+  report        Json?
   project       Project     @relation(fields: [projectId] , references: [id] , onDelete: Cascade)
 }
 

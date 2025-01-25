@@ -2,11 +2,12 @@ import { Response, Request } from "express";
 import { authRequest } from "../middleware/authmiddleware";
 import { UploadedFile } from "express-fileupload";
 import { uploadImageToCloudinary } from "../utils/cloudinaryulpoad";
-import { PrismaClient } from "@prisma/client";
+
 import {
   newFloorEntities,
   newFloorSchema,
 } from "../validations/floorValidation";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
