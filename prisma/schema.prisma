@@ -75,7 +75,7 @@ model ProjectFloor{
   annotations   Json?
 
   projectId     Int
-  // reportId     ProjectReport?
+  report     Json?
   //projectReport
 
   //Relation
@@ -84,13 +84,6 @@ model ProjectFloor{
 
 
 
-
-// model ProjectReport{
-//   id          Int @id @default(autoincrement())
-//   floorId     Int  @unique
-//   floor       ProjectFloor  @relation(fields: [floorId] , references: [id])
-  
-// } 
 
 enum Status{
   NEW

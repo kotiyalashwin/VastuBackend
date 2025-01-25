@@ -155,3 +155,24 @@ export const getFloorPlans = async (
     });
   }
 };
+
+export const getFloorDetails = async (req: authRequest, res: Response) => {
+  try {
+    const floorId = req.params.floorId;
+
+    const floorDetails = await prisma.projectFloor.findUnique({
+      where: {
+        id: Number(floorId),
+      },
+      select: {
+        annotations: true,
+      },
+    });
+
+    res.json(floorDetails);
+  } catch {
+    res.status(400).json({
+      message: "Unable to get details for the floor plan",
+    });
+  }
+};
