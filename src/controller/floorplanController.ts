@@ -158,7 +158,7 @@ export const getFloorPlans = async (
 
 export const getFloorDetails = async (req: authRequest, res: Response) => {
   try {
-    const floorId = req.params.floorId;
+    const floorId = req.params.floorid;
 
     const floorDetails = await prisma.projectFloor.findUnique({
       where: {
