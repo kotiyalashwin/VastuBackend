@@ -35,3 +35,26 @@ export const addReport = async (req: authRequest, res: Response) => {
     });
   }
 };
+
+export const getReport = async (req: authRequest, res: Response) => {
+  try {
+    try {
+      const floorid = Number(req.params.floorId);
+
+      const report = await prisma.projectFloor.findUnique({
+        where: {
+          id: floorid,
+        },
+        select: {
+          report: true,
+        },
+      });
+
+      res.json(report);
+    } catch {
+      res.status(400).json({
+        message: "Error Occurred",
+      });
+    }
+  } catch {}
+};
