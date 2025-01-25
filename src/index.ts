@@ -11,7 +11,7 @@ const corsOptions: CorsOptions = {
     const allowedOrigins = [
       "http://127.0.0.1:5173/",
       "https://vastu-project.vercel.app",
-      "http://localhost:5173",
+      "http://localhost:5173/",
     ];
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
@@ -37,11 +37,6 @@ const corsOptions: CorsOptions = {
 app.use(cors(corsOptions));
 app.use(require("cookie-parser")());
 app.use(express.json());
-
-app.get("/", (req, res) => {
-  res.send("hello");
-});
-
 app.use("/api/v1", mainRouter);
 
 app.listen(port, () => {
