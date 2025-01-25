@@ -15,7 +15,7 @@ export const imageUpload = async (
   res: Response
 ): Promise<void> => {
   try {
-    console.log(req.body);
+    // console.log(req.body);
     const { userName, projectName, floorNum } = req.body;
     // console.log(req.files);
 
@@ -24,7 +24,7 @@ export const imageUpload = async (
       return;
     }
     const file = req.files.image as UploadedFile | UploadedFile[];
-    console.log(file);
+    // console.log(file);
 
     if (!userName || !projectName || !file) {
       res
@@ -37,7 +37,7 @@ export const imageUpload = async (
       ? file[0].data
       : (file as UploadedFile).data;
 
-    const folderPath = `VastuProject/${userName}/${projectName}/${floorNum}`;
+    const folderPath = `LocalVastu/${userName}/${projectName}/${floorNum}`;
 
     const uploadResult = await uploadImageToCloudinary(imageBuffer, folderPath);
 
@@ -60,7 +60,7 @@ export const newFloor = async (
 ): Promise<void> => {
   try {
     const body: newFloorEntities = req.body;
-    console.log(body);
+    // console.log(body);
     const projectId = req.params.id;
     const { success } = newFloorSchema.safeParse(body);
 
@@ -74,7 +74,7 @@ export const newFloor = async (
     const { rawImg, markedImg, floorNumber, annotatedImg, description, rooms } =
       body;
 
-    console.log(rooms);
+    // console.log(rooms);
 
     // try {
     await prisma.projectFloor.create({

@@ -30,7 +30,7 @@ export const createProject = async (
       return;
     }
 
-    console.log(body.consultantid);
+    // console.log(body.consultantid);
 
     if (body.consultantid) {
       const consultant = await prisma.consultant.findUnique({
@@ -39,7 +39,7 @@ export const createProject = async (
         },
       });
 
-      console.log(consultant);
+      // console.log(consultant);
 
       if (!consultant) {
         res.status(404).json({
@@ -142,7 +142,7 @@ export const selectForReview = async (req: authRequest, res: Response) => {
       return;
     }
 
-    console.log(consUID);
+    // console.log(consUID);
     if (!consUID) {
       res.status(403).json({
         message: "Not a Valid User/Consultant ID invalid",

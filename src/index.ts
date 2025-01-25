@@ -9,7 +9,7 @@ const corsOptions: CorsOptions = {
   origin: (origin, callback) => {
     // Allow specific origins or all origins
     const allowedOrigins = [
-      // "http://127.0.0.1:5173/",
+      "http://127.0.0.1:5173/",
       "https://vastu-project.vercel.app",
       "http://localhost:5173",
     ];
@@ -37,6 +37,10 @@ const corsOptions: CorsOptions = {
 app.use(cors(corsOptions));
 app.use(require("cookie-parser")());
 app.use(express.json());
+
+app.get("/", (req, res) => {
+  res.send("hello");
+});
 
 app.use("/api/v1", mainRouter);
 

@@ -12,31 +12,33 @@ export const generateToken = (userId: string | undefined) => {
 export const setTokenCookie = (res: Response, token: string) => {
   res.cookie("token", token, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // Only true in production
+    secure: process.env.NODE_ENV === "production",
+    // secure: true, // Only true in production
     sameSite: "none",
     maxAge: 60 * 60 * 1000, // 1 hour
   });
-  console.log("Cookie Sent:", res.getHeaders()["set-cookie"]);
+  // console.log("Cookie Sent:", res.getHeaders()["set-cookie"]);
 };
 
 export const setRoleCookie = (res: Response, role: string) => {
   res.cookie("role", role, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // Only true in production
+    secure: true, // Only true in production
     sameSite: "none",
     maxAge: 60 * 60 * 1000, // 1 hour
   });
-  console.log("Cookie Sent:", res.getHeaders()["set-cookie"]);
+  // console.log("Cookie Sent:", res.getHeaders()["set-cookie"]);
 };
 
 export const setUIDCookie = (res: Response, uid: string) => {
   res.cookie("uid", uid, {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // Only true in production
+    secure: process.env.NODE_ENV === "production",
+    // secure: true, // Only true in production
     sameSite: "none",
     maxAge: 60 * 60 * 1000, // 1 hour
   });
-  console.log("Cookie Sent:", res.getHeaders()["set-cookie"]);
+  // console.log("Cookie Sent:", res.getHeaders()["set-cookie"]);
 };
 
 // Function to clear the cookie on logout

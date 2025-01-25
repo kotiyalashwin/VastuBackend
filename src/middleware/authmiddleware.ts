@@ -24,7 +24,7 @@ const authmiddleware = (
       // res.status(401).json({
       //   message: "Unauthorized: No token provided",
       // });
-      res.json({
+      res.status(403).json({
         message: "token or role cookie absent",
         isAuthenticated: false,
       });

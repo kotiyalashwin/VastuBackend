@@ -181,7 +181,7 @@ export const getSession = async (
       });
 
       if (!account || !role) {
-        console.log("no account");
+        // console.log("no account");
         res.json({
           isAuthenticated: false,
         });
@@ -194,15 +194,15 @@ export const getSession = async (
         isAuthenticated: true,
       });
     } else if (role === "CONSULTANT") {
-      console.log(role);
-      console.log(userId);
+      // console.log(role);
+      // console.log(userId);
       const account = await prisma.account.findFirst({
         where: { consultantId: userId as string },
         include: { user: true, consultant: true },
       });
 
       if (!account || !role) {
-        console.log("no account");
+        // console.log("no account");
         res.json({
           isAuthenticated: false,
         });
