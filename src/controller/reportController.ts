@@ -25,6 +25,10 @@ export const addReport = async (req: authRequest, res: Response) => {
         report: req.body,
       },
     });
+
+    res.json({
+      message: "Successfully added report",
+    });
   } catch {
     res.status(400).json({
       message: "Error Occurred",
