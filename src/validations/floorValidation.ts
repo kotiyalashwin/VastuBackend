@@ -17,7 +17,7 @@ export const newFloorSchema = z.object({
   rawImg: z.string().url(),
   markedImg: z.string().url(),
   annotatedImg: z.string().url().optional(),
-  room: z.array(newRoom).optional(),
+  rooms: z.array(newRoom).optional(),
 });
 
 export type newFloorEntities = z.infer<typeof newFloorSchema>;

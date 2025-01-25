@@ -3,7 +3,10 @@ import { authRequest } from "../middleware/authmiddleware";
 import { UploadedFile } from "express-fileupload";
 import { uploadImageToCloudinary } from "../utils/cloudinaryulpoad";
 import { PrismaClient } from "@prisma/client";
-import { newFloorSchema } from "../validations/floorValidation";
+import {
+  newFloorEntities,
+  newFloorSchema,
+} from "../validations/floorValidation";
 
 const prisma = new PrismaClient();
 
@@ -56,7 +59,8 @@ export const newFloor = async (
   res: Response
 ): Promise<void> => {
   try {
-    const body = req.body;
+    const body: newFloorEntities = req.body;
+    console.log(body);
     const projectId = req.params.id;
     const { success } = newFloorSchema.safeParse(body);
 
@@ -81,7 +85,7 @@ export const newFloor = async (
         description: description,
         annotated_img: annotatedImg,
         projectId: Number(projectId),
-        annotations: rooms,
+        annotations: rooms, //null
       },
     });
 
