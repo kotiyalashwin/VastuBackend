@@ -22,8 +22,8 @@ const updateDB = async (
 
     return;
   } catch (error) {
-    console.log(error);
-    // throw new Error(`Unable to update ${type} image requested by ${role}`);
+    // console.log(error);
+    throw new Error(`Unable to update ${type} image requested by ${role}`);
   }
 };
 
