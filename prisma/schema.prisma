@@ -65,14 +65,15 @@ model Project{
 
 model ProjectFloor{
   id            Int         @id @default(autoincrement())
-  floornumber   Int 
+  floornumber   Int? 
   description   String?
-  raw_img       String   @default("")
-  marked_img    String   @default("")
+  raw_img       String?   @default("")
+  marked_img    String?   @default("")
   annotated_img String?
   annotations   Json?
   projectId     Int
   report        Json?
+  modified      Boolean?  @default(false)
   project       Project     @relation(fields: [projectId] , references: [id] , onDelete: Cascade)
 }
 

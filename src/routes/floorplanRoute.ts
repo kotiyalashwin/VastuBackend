@@ -6,7 +6,6 @@ import {
   getFloorDetails,
   getFloorPlans,
   imageUpload,
-  newFloor,
 } from "../controller/floorplanController";
 import { addReport, getReport } from "../controller/reportController";
 
@@ -14,10 +13,10 @@ const router = express.Router();
 router.use(fileUpload());
 
 //upload image (form data)
-router.post("/image-upload", imageUpload);
+router.post("/image-upload/:projectId", imageUpload);
 
 //add floor plan
-router.post("/new-floorplan/:id", authmiddleware, newFloor);
+// router.post("/new-floorplan/:id", authmiddleware, newFloor);
 
 router.post("/report/addreport/:floorId", authmiddleware, addReport);
 
