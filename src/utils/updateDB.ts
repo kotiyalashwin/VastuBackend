@@ -24,7 +24,6 @@ const updateDB = async (
         modified: role === "CONSULTANT", // if consultant then modified is TRUE
       },
     });
-
     return;
   } catch (error) {
     // console.log(error);

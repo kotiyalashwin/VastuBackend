@@ -13,7 +13,7 @@ const router = express.Router();
 router.use(fileUpload());
 
 //upload image (form data)
-router.post("/image-upload/:projectId", imageUpload);
+router.post("/image-upload/:projectId", authmiddleware, imageUpload);
 
 //add floor plan
 // router.post("/new-floorplan/:id", authmiddleware, newFloor);
