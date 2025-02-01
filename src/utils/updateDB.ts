@@ -9,13 +9,18 @@ const updateDB = async (
   floorId: number
 ) => {
   try {
+    const previousData = await prisma.projectFloor.findUnique({
+      where: { id: floorId },
+      select: { annotated_img: true, marked_img: true },
+    });
     await prisma.projectFloor.update({
       where: {
         id: Number(floorId),
       },
       data: {
-        annotated_img: type === "annotated" ? link : "",
-        marked_img: type === "marked" ? link : "",
+        annotated_img:
+          type === "annotated" ? link : previousData?.annotated_img,
+        marked_img: type === "marked" ? link : previousData?.marked_img,
         modified: role === "CONSULTANT", // if consultant then modified is TRUE
       },
     });
