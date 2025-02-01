@@ -10,7 +10,7 @@ const updateDB = async (
 ) => {
   try {
     const previousData = await prisma.projectFloor.findUnique({
-      where: { id: floorId },
+      where: { id: Number(floorId) },
       select: { annotated_img: true, marked_img: true },
     });
     await prisma.projectFloor.update({
