@@ -70,6 +70,8 @@ model ProjectFloor{
   raw_img       String?   @default("")
   marked_img    String?   @default("")
   annotated_img String?
+  marked_compass_angle Int?   
+  marked_indicator_angle Int?
   annotations   Json?
   projectId     Int
   report        Json?

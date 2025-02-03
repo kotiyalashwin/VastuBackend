@@ -22,6 +22,7 @@ export const imageUpload = async (
   try {
     const { userName, projectName, floorNum, description, type } = req.body;
     const { projectId } = req.params;
+    const { marked_compass_angle, marked_indicator_angle } = req.body || null;
     const floorId = req.body.floorId || null;
     const role = req.role; // role
 
@@ -31,7 +32,7 @@ export const imageUpload = async (
     }
     const file = req.files.image as UploadedFile | UploadedFile[];
 
-    if (!userName || !projectName || !file) {
+    if (!userName || !projectName || !file || !projectId) {
       res
         .status(400)
         .json({ message: "Username, projectname, and file are required" });
@@ -70,17 +71,36 @@ export const imageUpload = async (
       });
       return;
     } else {
+      if (!marked_compass_angle || !uploadResult) {
+        res.status(400).json({
+          message: "Some error occured",
+        });
+      }
       //if requested by consultant
       if (role === "CONSULTANT") {
         //type === 'marked' | 'annotated'
-        await updateDB(type, uploadResult.result.url, "CONSULTANT", floorId);
+        await updateDB(
+          type,
+          uploadResult.result.url,
+          "CONSULTANT",
+          floorId,
+          marked_compass_angle,
+          marked_indicator_angle
+        );
         res.status(200).json({
           message: `${type} image updated successfully`,
         });
         return;
       }
       //if requested by user
-      await updateDB(type, uploadResult.result.url, "USER", floorId);
+      await updateDB(
+        type,
+        uploadResult.result.url,
+        "USER",
+        floorId,
+        marked_compass_angle,
+        marked_indicator_angle
+      );
       res.status(200).json({
         message: `${type} image uploaded successfully`,
       });

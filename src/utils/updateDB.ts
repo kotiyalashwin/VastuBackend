@@ -6,18 +6,28 @@ const updateDB = async (
   type: "marked" | "annotated",
   link: string,
   role: "USER" | "CONSULTANT",
-  floorId: number
+  floorId: number,
+  marked_compass_angle: number,
+  marked_indicator_angle: number
 ) => {
   try {
     const previousData = await prisma.projectFloor.findUnique({
       where: { id: Number(floorId) },
-      select: { annotated_img: true, marked_img: true },
+      select: {
+        annotated_img: true,
+        marked_img: true,
+        marked_compass_angle: true,
+      },
     });
     await prisma.projectFloor.update({
       where: {
         id: Number(floorId),
       },
       data: {
+        marked_compass_angle:
+          marked_compass_angle !== previousData?.marked_compass_angle
+            ? marked_compass_angle
+            : previousData.marked_compass_angle,
         annotated_img:
           type === "annotated" ? link : previousData?.annotated_img,
         marked_img: type === "marked" ? link : previousData?.marked_img,
