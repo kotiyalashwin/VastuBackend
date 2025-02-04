@@ -9,8 +9,6 @@ import {
 } from "../validations/floorValidation";
 import { PrismaClient } from "@prisma/client";
 import updateDB from "../utils/updateDB";
-import { link } from "fs";
-import { convertToObject } from "typescript";
 
 const prisma = new PrismaClient();
 
@@ -32,10 +30,8 @@ export const imageUpload = async (
     }
     const file = req.files.image as UploadedFile | UploadedFile[];
 
-    if (!userName || !projectName || !file || !projectId) {
-      res
-        .status(400)
-        .json({ message: "Username, projectname, and file are required" });
+    if (!userName || !projectName || !file || !projectId || !type) {
+      res.status(400).json({ message: "Invalid Request" });
       return;
     }
 
@@ -71,7 +67,7 @@ export const imageUpload = async (
       });
       return;
     } else {
-      if (!marked_compass_angle || !uploadResult) {
+      if (!uploadResult) {
         res.status(400).json({
           message: "Some error occured",
         });

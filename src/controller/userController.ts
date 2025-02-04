@@ -22,7 +22,7 @@ export const signUp = async (req: Request, res: Response): Promise<void> => {
 
     if (!body) {
       // Send the response and return immediately
-      res.json({ err: "Invalid Request" });
+      res.status(201).json({ err: "Invalid Request" });
       return;
     }
 
@@ -131,7 +131,6 @@ export const signIn = async (req: Request, res: Response): Promise<void> => {
 
 export const logout = async (req: Request, res: Response): Promise<void> => {
   try {
-    // Clear the token cookie upon logout
     res.clearCookie("token", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production", // only secure in production
@@ -173,7 +172,6 @@ export const getSession = async (
       });
       return;
     }
-    // console.log(role);
     if (role === "USER") {
       const account = await prisma.account.findFirst({
         where: { userId: userId as string },
@@ -181,7 +179,6 @@ export const getSession = async (
       });
 
       if (!account || !role) {
-        // console.log("no account");
         res.json({
           isAuthenticated: false,
         });
@@ -194,15 +191,12 @@ export const getSession = async (
         isAuthenticated: true,
       });
     } else if (role === "CONSULTANT") {
-      // console.log(role);
-      // console.log(userId);
       const account = await prisma.account.findFirst({
         where: { consultantId: userId as string },
         include: { user: true, consultant: true },
       });
 
       if (!account || !role) {
-        // console.log("no account");
         res.json({
           isAuthenticated: false,
         });
