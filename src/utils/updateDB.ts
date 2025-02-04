@@ -17,6 +17,7 @@ const updateDB = async (
         annotated_img: true,
         marked_img: true,
         marked_compass_angle: true,
+        marked_indicator_angle: true,
       },
     });
     await prisma.projectFloor.update({
@@ -26,8 +27,12 @@ const updateDB = async (
       data: {
         marked_compass_angle:
           marked_compass_angle !== previousData?.marked_compass_angle
-            ? marked_compass_angle
+            ? Number(marked_compass_angle)
             : previousData.marked_compass_angle,
+        marked_indicator_angle:
+          marked_indicator_angle !== previousData?.marked_indicator_angle
+            ? Number(marked_indicator_angle)
+            : previousData.marked_indicator_angle,
         annotated_img:
           type === "annotated" ? link : previousData?.annotated_img,
         marked_img: type === "marked" ? link : previousData?.marked_img,
