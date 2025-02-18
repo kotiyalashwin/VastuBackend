@@ -19,10 +19,14 @@ export const imageUpload = async (
 ): Promise<void> => {
   try {
     const { userName, projectName, floorNum, description, type } = req.body;
+    const { rooms } = req.body || null;
     const { projectId } = req.params;
     const { marked_compass_angle, marked_indicator_angle } = req.body || null;
     const floorId = req.body.floorId || null;
     const role = req.role; // role
+    console.log(rooms);
+    const parsedAnnotations = JSON.parse(rooms);
+    console.log(parsedAnnotations);
 
     if (!req.files || !req.files.image) {
       res.status(400).json({ message: "File is required" });
@@ -79,6 +83,7 @@ export const imageUpload = async (
           type,
           uploadResult.result.url,
           "CONSULTANT",
+          parsedAnnotations,
           floorId,
           marked_compass_angle,
           marked_indicator_angle
@@ -94,6 +99,7 @@ export const imageUpload = async (
         uploadResult.result.url,
         "USER",
         floorId,
+        parsedAnnotations,
         marked_compass_angle,
         marked_indicator_angle
       );
