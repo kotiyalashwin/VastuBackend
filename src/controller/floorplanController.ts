@@ -19,15 +19,16 @@ export const imageUpload = async (
 ): Promise<void> => {
   try {
     const { userName, projectName, floorNum, description, type } = req.body;
-    const { rooms } = req.body || null;
     const { projectId } = req.params;
     const { marked_compass_angle, marked_indicator_angle } = req.body || null;
     const floorId = req.body.floorId || null;
     const role = req.role; // role
-    console.log(rooms);
-    const parsedAnnotations = JSON.parse(rooms);
-    console.log(parsedAnnotations);
+    let rooms;
 
+    if (type === "annotated") {
+      rooms = req.body.rooms;
+      console.log(rooms);
+    }
     if (!req.files || !req.files.image) {
       res.status(400).json({ message: "File is required" });
       return;
@@ -50,7 +51,7 @@ export const imageUpload = async (
     console.log(type);
     //add functioning for consultant and user seperate
     if (type === "raw") {
-      //create row for newFloor with raw_img url
+      //create raw for newFloor with raw_img url
       const floorId = await prisma.projectFloor.create({
         data: {
           floornumber: Number(floorNum),
@@ -71,11 +72,13 @@ export const imageUpload = async (
       });
       return;
     } else {
+      //IF not RAW
       if (!uploadResult) {
         res.status(400).json({
           message: "Some error occured",
         });
       }
+
       //if requested by consultant
       if (role === "CONSULTANT") {
         //type === 'marked' | 'annotated'
@@ -83,7 +86,7 @@ export const imageUpload = async (
           type,
           uploadResult.result.url,
           "CONSULTANT",
-          parsedAnnotations,
+          // parsedAnnotations,
           floorId,
           marked_compass_angle,
           marked_indicator_angle
@@ -93,13 +96,14 @@ export const imageUpload = async (
         });
         return;
       }
+
       //if requested by user
       await updateDB(
         type,
         uploadResult.result.url,
         "USER",
         floorId,
-        parsedAnnotations,
+        // parsedAnnotations,
         marked_compass_angle,
         marked_indicator_angle
       );

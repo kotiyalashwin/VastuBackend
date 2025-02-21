@@ -8,8 +8,8 @@ const updateDB = async (
   role: "USER" | "CONSULTANT",
   floorId: number,
   marked_compass_angle: number,
-  marked_indicator_angle: number,
-  parsedAnnotations: any
+  marked_indicator_angle: number
+  // parsedAnnotations: any
 ) => {
   try {
     const previousData = await prisma.projectFloor.findUnique({
@@ -26,7 +26,7 @@ const updateDB = async (
         id: Number(floorId),
       },
       data: {
-        annotations: type === "annotated" ? parsedAnnotations : undefined,
+        // annotations: type === "annotated" ? parsedAnnotations : undefined,
         marked_compass_angle:
           type === "marked" &&
           marked_compass_angle !== previousData?.marked_compass_angle
