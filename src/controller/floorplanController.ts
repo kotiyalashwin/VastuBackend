@@ -70,7 +70,7 @@ export const imageUpload = async (
       return;
     } else {
       let rooms;
-      if (type === "annotates") {
+      if (type === "annotated") {
         rooms = JSON.parse(req.body.rooms);
       }
       //IF not RAW
