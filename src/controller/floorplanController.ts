@@ -27,7 +27,7 @@ export const imageUpload = async (
 
     if (type === "annotated") {
       rooms = req.body.rooms;
-      console.log(rooms);
+      // console.log(rooms);
     }
     if (!req.files || !req.files.image) {
       res.status(400).json({ message: "File is required" });
@@ -86,7 +86,7 @@ export const imageUpload = async (
           type,
           uploadResult.result.url,
           "CONSULTANT",
-          // parsedAnnotations,
+          rooms,
           floorId,
           marked_compass_angle,
           marked_indicator_angle
@@ -103,7 +103,7 @@ export const imageUpload = async (
         uploadResult.result.url,
         "USER",
         floorId,
-        // parsedAnnotations,
+        rooms,
         marked_compass_angle,
         marked_indicator_angle
       );
@@ -239,6 +239,47 @@ export const getFloorDetails = async (req: authRequest, res: Response) => {
   } catch {
     res.status(400).json({
       message: "Unable to get details for the floor plan",
+    });
+  }
+};
+
+export const getAnnotations = async (req: Request, res: Response) => {
+  try {
+    const { floorId } = req.params;
+
+    if (!floorId) {
+      res.status(201).json({
+        message: "Floor is Required",
+      });
+      return;
+    }
+
+    const prev_annotatios = await prisma.projectFloor.findUnique({
+      where: {
+        id: Number(floorId),
+      },
+      select: {
+        annotations: true,
+      },
+    });
+
+    if (!prev_annotatios) {
+      res.status(201).json({
+        message: "Unable to fetch annotaions",
+      });
+      return;
+    }
+
+    res.status(200).json({
+      annotations: prev_annotatios,
+    });
+
+    return;
+  } catch (e) {
+    console.error(e);
+
+    res.status(201).json({
+      message: "Unable to fetch Annotations for this floors",
     });
   }
 };

@@ -3,6 +3,7 @@ import authmiddleware from "../middleware/authmiddleware";
 import { projectMiddleware } from "../middleware/projectauth";
 import fileUpload from "express-fileupload";
 import {
+  getAnnotations,
   getFloorDetails,
   getFloorPlans,
   imageUpload,
@@ -24,6 +25,8 @@ router.get("/report/getreport/:floorId", authmiddleware, getReport);
 
 //specific floor plan
 router.get("/getfloor/:floorid", getFloorDetails);
+
+router.get("/getannotations/:floorid", getAnnotations);
 
 //bulk floor plan
 router.get(
