@@ -24,15 +24,7 @@ export const imageUpload = async (
     const floorId = req.body.floorId || null;
     const role = req.role; // role
     let rooms;
-
-    if (type === "annotated" && req.body.rooms) {
-      rooms = JSON.parse(req.body.rooms);
-      // console.log(rooms);
-    } else {
-      res.status(201).json({
-        message: "Annotations are required",
-      });
-    }
+    console.log(req.body.rooms);
     if (!req.files || !req.files.image) {
       res.status(400).json({ message: "File is required" });
       return;
@@ -76,6 +68,11 @@ export const imageUpload = async (
       });
       return;
     } else {
+      if (type === "annotated") {
+        rooms = req.body.rooms;
+        console.log(rooms);
+        console.log(typeof rooms);
+      }
       //IF not RAW
       if (!uploadResult) {
         res.status(400).json({
@@ -266,13 +263,7 @@ export const getAnnotations = async (req: Request, res: Response) => {
     res.status(200).json({
       annotations: prev_annotatios,
     });
-
-    return;
   } catch (e) {
     console.error(e);
-
-    res.status(201).json({
-      message: "Unable to fetch Annotations for this floors",
-    });
   }
 };
