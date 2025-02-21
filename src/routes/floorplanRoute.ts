@@ -16,17 +16,13 @@ router.use(fileUpload());
 //upload image (form data)
 router.post("/image-upload/:projectId", authmiddleware, imageUpload);
 
-//add floor plan
-// router.post("/new-floorplan/:id", authmiddleware, newFloor);
-
 router.post("/report/addreport/:floorId", authmiddleware, addReport);
 
 router.get("/report/getreport/:floorId", authmiddleware, getReport);
 
 //specific floor plan
 router.get("/getfloor/:floorid", getFloorDetails);
-
-router.get("/getannotations/:floorid", getAnnotations);
+router.get("/getannotations/:floorId", getAnnotations);
 
 //bulk floor plan
 router.get(

@@ -203,17 +203,6 @@ export const getFloorPlans = async (
         res.json(data); // floorId
         //res.status(200)
       });
-
-    // if (!floorPlans) {
-    //   res.status(500).json({
-    //     message: "No floor plans Found for this project",
-    //   });
-    //   return;
-    // }
-
-    // res.status(200).json({
-    //   floorPlans,
-    // });
   } catch (e) {
     console.error("Error retreiving floorplan:", e);
     res.status(500).json({
