@@ -23,9 +23,9 @@ export const imageUpload = async (
     const { marked_compass_angle, marked_indicator_angle } = req.body || null;
     const floorId = req.body.floorId || null;
     const role = req.role; // role
-    const room = JSON.parse(req.body.rooms) || null;
-    console.log(room);
-    console.log(Array.isArray(room));
+
+    //ERROR
+
     if (!req.files || !req.files.image) {
       res.status(400).json({ message: "File is required" });
       return;
@@ -69,6 +69,10 @@ export const imageUpload = async (
       });
       return;
     } else {
+      let rooms;
+      if (type === "annotates") {
+        rooms = JSON.parse(req.body.rooms);
+      }
       //IF not RAW
       if (!uploadResult) {
         res.status(400).json({
@@ -84,9 +88,9 @@ export const imageUpload = async (
           uploadResult.result.url,
           "CONSULTANT",
           floorId,
-          room,
           marked_compass_angle,
-          marked_indicator_angle
+          marked_indicator_angle,
+          rooms
         );
         res.status(200).json({
           message: `${type} image updated successfully`,
@@ -100,9 +104,9 @@ export const imageUpload = async (
         uploadResult.result.url,
         "USER",
         floorId,
-        room,
         marked_compass_angle,
-        marked_indicator_angle
+        marked_indicator_angle,
+        rooms
       );
       res.status(200).json({
         message: `${type} image uploaded successfully`,
