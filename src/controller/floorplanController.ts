@@ -25,9 +25,13 @@ export const imageUpload = async (
     const role = req.role; // role
     let rooms;
 
-    if (type === "annotated") {
-      rooms = req.body.rooms;
+    if (type === "annotated" && req.body.rooms) {
+      rooms = JSON.parse(req.body.rooms);
       // console.log(rooms);
+    } else {
+      res.status(201).json({
+        message: "Annotations are required",
+      });
     }
     if (!req.files || !req.files.image) {
       res.status(400).json({ message: "File is required" });
