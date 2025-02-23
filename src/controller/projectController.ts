@@ -7,7 +7,6 @@ import { authRequest } from "../middleware/authmiddleware";
 const prisma = new PrismaClient();
 
 // Create Project
-//todo : onyl
 export const createProject = async (
   req: authRequest,
   res: Response
@@ -79,7 +78,6 @@ export const createProject = async (
     });
   }
 };
-
 // Get Created Projects
 export const getCreatedProjects = async (
   req: authRequest,

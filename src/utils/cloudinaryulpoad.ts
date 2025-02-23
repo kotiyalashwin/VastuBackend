@@ -16,7 +16,9 @@ export const uploadImageToCloudinary = async (
         .upload_stream(
           {
             folder: folderPath,
-            resource_type: "auto",
+            resource_type: "image",
+            format: "webp",
+            type: "upload",
           },
           (error, result) => {
             if (error) reject(error);

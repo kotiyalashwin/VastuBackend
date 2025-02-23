@@ -9,6 +9,8 @@ import {
 } from "../validations/floorValidation";
 import { PrismaClient } from "@prisma/client";
 import updateDB from "../utils/updateDB";
+import { array } from "zod";
+import { addAnnotations } from "../utils/addAnnotations";
 
 const prisma = new PrismaClient();
 
@@ -72,6 +74,7 @@ export const imageUpload = async (
       let rooms;
       if (type === "annotated") {
         rooms = JSON.parse(req.body.rooms);
+        addAnnotations(Number(floorId), rooms, prisma);
       }
       //IF not RAW
       if (!uploadResult) {
@@ -89,8 +92,7 @@ export const imageUpload = async (
           "CONSULTANT",
           floorId,
           marked_compass_angle,
-          marked_indicator_angle,
-          rooms
+          marked_indicator_angle
         );
         res.status(200).json({
           message: `${type} image updated successfully`,
@@ -105,8 +107,7 @@ export const imageUpload = async (
         "USER",
         floorId,
         marked_compass_angle,
-        marked_indicator_angle,
-        rooms
+        marked_indicator_angle
       );
       res.status(200).json({
         message: `${type} image uploaded successfully`,
