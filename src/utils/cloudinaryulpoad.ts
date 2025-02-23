@@ -1,5 +1,5 @@
 import { v2 as cloudinary } from "cloudinary";
-
+import sharp = require("sharp");
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.CLOUD_API_KEY,
@@ -11,6 +11,10 @@ export const uploadImageToCloudinary = async (
   folderPath: string
 ) => {
   try {
+    const compressedBuffer = await sharp(imageBuffer)
+      .webp({ quality: 90 })
+      .toBuffer();
+
     const result = await new Promise<any>((resolve, reject) => {
       cloudinary.uploader
         .upload_stream(
@@ -18,14 +22,13 @@ export const uploadImageToCloudinary = async (
             folder: folderPath,
             resource_type: "image",
             format: "webp",
-            type: "upload",
           },
           (error, result) => {
             if (error) reject(error);
             else resolve(result);
           }
         )
-        .end(imageBuffer);
+        .end(compressedBuffer);
     });
 
     return {

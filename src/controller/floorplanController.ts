@@ -9,7 +9,6 @@ import {
 } from "../validations/floorValidation";
 import { PrismaClient } from "@prisma/client";
 import updateDB from "../utils/updateDB";
-import { array } from "zod";
 import { addAnnotations } from "../utils/addAnnotations";
 
 const prisma = new PrismaClient();
