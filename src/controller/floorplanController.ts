@@ -71,8 +71,10 @@ export const imageUpload = async (
     } else {
       let rooms;
       if (type === "annotated") {
+        console.log("Uploading Annotated Image...");
         rooms = JSON.parse(req.body.rooms);
-        addAnnotations(Number(floorId), rooms, prisma);
+        console.log(rooms);
+        addAnnotations(Number(floorId), rooms);
       }
       //IF not RAW
       if (!uploadResult) {

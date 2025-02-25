@@ -1,19 +1,11 @@
-import { PrismaClient } from "@prisma/client";
-
-export const addAnnotations = async (
-  floorid: number,
-  annotaions: [],
-  prisma: PrismaClient
-) => {
+export const addAnnotations = async (floorid: number, annotaions: []) => {
   try {
     const floorId = floorid;
     const finalAnnotations = annotaions.map((el) => {
-      //@ts-ignore
+      // @ts-ignore
       return { ...el, projectfloor: floorId };
     });
-    await prisma.annotations.createMany({
-      data: finalAnnotations,
-    });
+    console.log("final annotations", finalAnnotations);
   } catch {
     throw new Error("Error Adding Annotations");
   }
