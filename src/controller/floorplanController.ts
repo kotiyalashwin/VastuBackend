@@ -10,8 +10,7 @@ import {
 import { PrismaClient } from "@prisma/client";
 import updateDB from "../utils/updateDB";
 import { addAnnotations } from "../utils/addAnnotations";
-
-const prisma = new PrismaClient();
+import prisma from "../db";
 
 //TODO: Add Zod Validations for this function
 export const imageUpload = async (

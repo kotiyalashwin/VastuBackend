@@ -13,8 +13,7 @@ import {
 } from "../utils/tokenUtils";
 import { authRequest } from "../middleware/authmiddleware";
 import { createAccount } from "../utils/createAccount";
-
-const prisma = new PrismaClient();
+import prisma from "../db";
 
 export const signUp = async (req: Request, res: Response): Promise<void> => {
   try {

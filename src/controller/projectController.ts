@@ -3,8 +3,7 @@ import { newProjectSchema } from "../validations/projectValid";
 import { NewProjectNumber } from "../utils/projectNumber";
 import { Response } from "express";
 import { authRequest } from "../middleware/authmiddleware";
-
-const prisma = new PrismaClient();
+import prisma from "../db";
 
 // Create Project
 export const createProject = async (

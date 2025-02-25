@@ -2,9 +2,7 @@ import { Response } from "express";
 import { authRequest } from "../middleware/authmiddleware";
 
 import { reportDataSchema } from "../validations/reportValidation";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "../db";
 
 export const addReport = async (req: authRequest, res: Response) => {
   try {

@@ -3,8 +3,7 @@ import bcrypt from "bcrypt";
 import { Response } from "express";
 import { generateUniqueId } from "./consultantUniqueId";
 import { generateToken, setUIDCookie } from "./tokenUtils";
-
-const prisma = new PrismaClient();
+import prisma from "../db";
 
 export const createAccount = async (body: any, res: Response) => {
   // const { email } = body.email;
