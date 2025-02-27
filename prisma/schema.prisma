@@ -68,8 +68,10 @@ model ProjectFloor{
   floornumber   Int? 
   description   String?
   raw_img       String?   @default("")
-  marked_img    String?   @default("")
-  annotated_img String?
+  user_marked_img    String?   @default("")
+  user_annotated_img String?    @default("")
+  final_marked_img    String?   @default("")
+  final_annotated_img String?    @default("")
   marked_compass_angle Int?   
   marked_indicator_angle Int?
   projectId     Int
