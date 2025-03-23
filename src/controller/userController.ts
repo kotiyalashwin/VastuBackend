@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import {
   AccountSignUpSchema,
   userSignInSchema,
@@ -34,16 +34,23 @@ export const signUp = async (req: Request, res: Response): Promise<void> => {
 
     const account = await createAccount(body, res);
 
-    if (account?.role === "USER" && account.userId) {
-      const role = generateToken(account.role);
-      const token = generateToken(account.userId);
-      setRoleCookie(res, role);
-      setTokenCookie(res, token);
-    } else if (account?.role === "CONSULTANT" && account.consultantId) {
-      const role = generateToken(account.role);
-      const token = generateToken(account.consultantId);
-      setRoleCookie(res, role);
-      setTokenCookie(res, token);
+    try {
+      if (account?.role === "USER" && account.userId) {
+        const role = generateToken(account.role);
+        const token = generateToken(account.userId);
+        setRoleCookie(res, role);
+        setTokenCookie(res, token);
+      } else if (account?.role === "CONSULTANT" && account.consultantId) {
+        const role = generateToken(account.role);
+        const token = generateToken(account.consultantId);
+        setRoleCookie(res, role);
+        setTokenCookie(res, token);
+      }
+    } catch {
+      res.status(500).json({
+        msg: "Unable to add new user",
+      });
+      return;
     }
     res.status(200).json({
       message: "User created successfully",
@@ -209,8 +216,8 @@ export const getSession = async (
       });
     }
   } catch (e) {
-    console.error("Session error:", e);
-    res.status(500).json({
+    // console.error("Session error:", e);
+    res.json({
       error: `Unable to verify : ${e}`,
     });
   }

@@ -1,12 +1,11 @@
 import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { Response } from "express";
 import { generateUniqueId } from "./consultantUniqueId";
 import { generateToken, setUIDCookie } from "./tokenUtils";
 import prisma from "../db";
 
 export const createAccount = async (body: any, res: Response) => {
-  // const { email } = body.email;
   const existing = await prisma.account.findUnique({
     where: { email: body.email },
   });

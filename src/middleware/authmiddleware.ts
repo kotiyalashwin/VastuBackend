@@ -17,13 +17,7 @@ const authmiddleware = (
     const token = req.cookies?.token;
     const role = req.cookies?.role;
 
-    // console.log(token);
-
-    //token not present
     if (!token || !role) {
-      // res.status(401).json({
-      //   message: "Unauthorized: No token provided",
-      // });
       res.status(403).json({
         message: "token or role cookie absent",
         isAuthenticated: false,

@@ -90,6 +90,10 @@ model Annotations{
   end Int
   text String
   orientation String
+  startX Int
+  startY Int
+  width Int
+  height Int
 }
 
 
