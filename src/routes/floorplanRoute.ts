@@ -8,17 +8,12 @@ import {
   getFloorPlans,
   imageUpload,
 } from "../controller/floorplanController";
-import { addReport, getReport } from "../controller/reportController";
 
 const router = express.Router();
 router.use(fileUpload());
 
 //upload image (form data)
 router.post("/image-upload/:projectId", authmiddleware, imageUpload);
-
-router.post("/report/addreport/:floorId", authmiddleware, addReport);
-
-router.get("/report/getreport/:floorId", authmiddleware, getReport);
 
 //specific floor plan
 router.get("/getfloor/:floorid", getFloorDetails);
