@@ -1,0 +1,199 @@
+[
+  {
+    "S.no": 1,
+    "Name": "Kuber",
+    "Direction": "N"
+  },
+  {
+    "S.no": 2,
+    "Name": "Pair of red horses",
+    "Direction": "S",
+    "Benefit": "Converts action in to flow of cash/wealth"
+  },
+  {
+    "S.no": 3,
+    "Name": "Camel",
+    "Direction": "W",
+    "Direction 2": "Facing center of building",
+    "Benefit": "It increases productivity and profit"
+  },
+  {
+    "S.no": 4,
+    "Name": "White pair of horses ",
+    "Direction": "NW",
+    "Direction 2": "10-12\"",
+    "Benefit": "Bank and finance colloboration"
+  },
+  {
+    "S.no": 5,
+    "Name": "Nandi",
+    "Direction": "SW",
+    "Direction 2": "Facing NE direction",
+    "Benefit": "Stabilize your business",
+    "__EMPTY": "Trust and loyality",
+    "__EMPTY_1": "Gift"
+  },
+  {
+    "S.no": 6,
+    "Name": "Rabbits Brass",
+    "Direction": "ESE",
+    "Direction 2": "5-6\"",
+    "Benefit": "Develop business connection and beneficial busingess",
+    "__EMPTY": "Turns expenses to busienss, commerfical networkm"
+  },
+  {
+    "S.no": 7,
+    "Name": "12 white horses",
+    "Direction": "NNW",
+    "Benefit": "Keep this in your North of North West Direction and it will improve life quality and mix investment beneficial . It will also create attraction for real estate properties."
+  },
+  {
+    "S.no": 8,
+    "Name": "12 Red horses",
+    "Direction": "S",
+    "Benefit": "Estabnlish company, brand building"
+  },
+  {
+    "S.no": 9,
+    "Name": "Lion",
+    "Direction": "NNE",
+    "Benefit": "Used for glory magnificient and authority",
+    "__EMPTY": "Government liasing"
+  },
+  {
+    "S.no": 10,
+    "Name": "Sun",
+    "Direction": "E",
+    "__EMPTY": "Politact power social connection, success in meeting and gathering"
+  },
+  {
+    "S.no": 11,
+    "Name": "Chess Board",
+    "Direction": "W",
+    "Direction 2": "Brass, Wood, Glass",
+    "__EMPTY": "Makes you confident with your abilities . Provideds confidence , political influence and increases efficienc ies. It also creates attentiveness"
+  },
+  {
+    "S.no": 12,
+    "Name": "Eagle",
+    "Direction": "S W",
+    "Direction 2": "Facing N E",
+    "__EMPTY": "Sharpens your skills, it improves slkills, abilities, cioncentraion and awareness"
+  },
+  {
+    "S.no": 13,
+    "Name": "Dancing Dolphins",
+    "Direction": "ESE",
+    "__EMPTY": "Improve and enhan ce your work and performance, Customer satisfatcion and proivides best result to close deal"
+  },
+  {
+    "S.no": 14,
+    "Name": "Pyramids",
+    "Direction 2": "10 types",
+    "__EMPTY": "Dierction strengh"
+  },
+  {
+    "__EMPTY": "Quality of mars, busienss source"
+  },
+  {
+    "S.no": 15,
+    "Name": "Swastik",
+    "Direction": "N",
+    "Direction 2": "Fame / Recog",
+    "__EMPTY": "COncentraion, and keeps away kind of negative energy in landcape portrait"
+  },
+  {
+    "__EMPTY": "HGenerates recognition, fame from work youy completed"
+  },
+  {
+    "S.no": 16,
+    "Name": "Kamdhanu Cow",
+    "Direction": "ESE",
+    "__EMPTY": "Removes iner confusiuon, benefits from social system and policies "
+  },
+  {
+    "S.no": 17,
+    "Name": "Deer",
+    "Direction": "WNW",
+    "__EMPTY": "This can be placed on table and shelf , it infuses more power and vital energy in you, kleeps you always actiuve'"
+  },
+  {
+    "S.no": 18,
+    "Name": "Tortoise ",
+    "Direction": "W",
+    "__EMPTY": "It experinces longivity and patience , generate and success which comes from your perceivenes, basic structure is patience and stability."
+  },
+  {
+    "S.no": 19,
+    "Name": "Indra Dev",
+    "Direction": "E ",
+    "Direction 2": "Without vajra",
+    "__EMPTY": "Organization energy and health to create good connectiojn, good for office"
+  },
+  {
+    "S.no": 20,
+    "Name": "Green mountains",
+    "Direction": "WSW",
+    "__EMPTY": "Improve cooperatio within the team."
+  },
+  {
+    "S.no": 21,
+    "Name": "Red elephant",
+    "Direction": "S",
+    "__EMPTY": "Fame and recognition. Brand "
+  },
+  {
+    "S.no": 22,
+    "Name": "Ashok Pillar",
+    "Direction": "NW , E",
+    "__EMPTY": "Estabilih identify , hjelps to get support from government, "
+  },
+  {
+    "S.no": 23,
+    "Name": "Sword",
+    "Direction": "ENE",
+    "__EMPTY": "vitory , establish recognition"
+  },
+  {
+    "S.no": 24,
+    "Name": "Village Sceneries",
+    "Direction": "WSW",
+    "__EMPTY": "Manifest dream house,  it enables recieve and befenift from yoru wealth and benefit from yoru own loand an dnbenefit"
+  },
+  {
+    "S.no": 25,
+    "Name": "Pair of love bird",
+    "Direction": "SW",
+    "__EMPTY": "coordinatuion, and deep consistent love"
+  },
+  {
+    "S.no": 26,
+    "Name": "Flowers",
+    "Direction": "N",
+    "Direction 2": "White, blue",
+    "__EMPTY": "create opportunities"
+  },
+  {
+    "S.no": 27,
+    "Name": "Yellow Vases",
+    "Direction": "SSW",
+    "__EMPTY": "Stops the drainage of vital energy, and provides vital aspect to grow"
+  },
+  {
+    "S.no": 28,
+    "Name": "Sea Salt",
+    "Direction": "Bathroom, main rooms etc",
+    "__EMPTY": "Remove nagative energy"
+  },
+  {
+    "S.no": 29,
+    "Name": "Owl",
+    "Direction": "NW",
+    "__EMPTY": "Conscious amd precautiousness"
+  },
+  {
+    "S.no": 30,
+    "Name": "Owl",
+    "Direction": "N"
+  }
+]
