@@ -12,16 +12,21 @@ export const generateReport = async (req: Request, res: Response) => {
       select: {
         text: true,
         orientation: true,
+        note: true,
       },
     });
 
     const annotations = annotationsDB.map((annotation) => ({
       roomtype: annotation.text,
       direction: annotation.orientation,
+      description: annotation.note,
     }));
 
     const report = await GenerateReport(annotations);
 
+    if (!report) {
+      throw new Error();
+    }
     await prisma.projectFloor.update({
       where: {
         id: floorId,

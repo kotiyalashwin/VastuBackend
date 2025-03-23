@@ -1,9 +1,11 @@
+import e = require("express");
 import fs from "fs";
 import path = require("path");
 
 type annotations = {
   roomtype: string;
   direction: string;
+  description: string;
 };
 
 const vastuData = JSON.parse(
@@ -32,6 +34,9 @@ export const GenerateReport = async (annotaions: annotations[]) => {
         throw new Error();
       }
       return {
+        room: el.roomtype,
+        direction: el.direction,
+        description: el.description,
         impact: vastuEntry.Impacts || "No impact data available",
         remedy: vastuEntry.Remedies || "No remedy data available",
       };
@@ -39,6 +44,6 @@ export const GenerateReport = async (annotaions: annotations[]) => {
 
     return report;
   } catch {
-    throw new Error();
+    return null;
   }
 };
