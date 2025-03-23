@@ -22,6 +22,15 @@ export const generateReport = async (req: Request, res: Response) => {
 
     const report = await GenerateReport(annotations);
 
+    await prisma.projectFloor.update({
+      where: {
+        id: floorId,
+      },
+      data: {
+        report: report,
+      },
+    });
+
     res.json(report);
   } catch {
     res.status(201).json({

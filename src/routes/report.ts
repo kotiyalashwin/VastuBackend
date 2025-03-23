@@ -3,5 +3,5 @@ import { generateReport } from "../controller/report";
 
 const router = express.Router();
 
-router.post("/", generateReport);
+router.post("/:floorId", generateReport);
 export default router;
