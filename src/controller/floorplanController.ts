@@ -217,16 +217,16 @@ export const getFloorDetails = async (req: authRequest, res: Response) => {
   try {
     const floorId = req.params.floorid;
 
-    const floorDetails = await prisma.projectFloor.findUnique({
+    const report = await prisma.projectFloor.findUnique({
       where: {
         id: Number(floorId),
       },
       select: {
-        annotations: true,
+        report: true,
       },
     });
 
-    res.json(floorDetails);
+    res.json(report);
   } catch {
     res.status(400).json({
       message: "Unable to get details for the floor plan",
