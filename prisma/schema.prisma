@@ -97,6 +97,22 @@ model Annotations{
 }
 
 
+model Assets {
+  // asset_id    Int @id @default(autoincrement())
+  asset_name  String  @id @unique
+  asset_info  AssetData[]
+}
+
+model AssetData {
+  id          Int        @id @default(autoincrement())
+  asset_name  String 
+  direction   String
+  remedy      String?
+  impact      String?
+  asset       Assets     @relation(fields: [asset_name],references: [asset_name])
+
+  @@unique([asset_name , direction])
+}
 
 enum Status{
   NEW

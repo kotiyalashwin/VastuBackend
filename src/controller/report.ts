@@ -27,19 +27,66 @@ export const generateReport = async (req: Request, res: Response) => {
     if (!report) {
       throw new Error();
     }
-    await prisma.projectFloor.update({
-      where: {
-        id: floorId,
-      },
-      data: {
-        report: report,
-      },
-    });
+    // await prisma.projectFloor.update({
+    //   where: {
+    //     id: floorId,
+    //   },
+    //   data: {
+    //     report: report,
+    //   },
+    // });
 
     res.json(report);
   } catch {
     res.status(201).json({
       message: "Unable to generate report",
+    });
+  }
+};
+
+export const setReport = async (req: Request, res: Response) => {
+  try {
+    const floorId = req.params.floorId;
+    if (!floorId) {
+      res.status(201).json({
+        message: "Floor id required in params",
+      });
+      return;
+    }
+
+    const finalReport = req.body.report;
+    // ARRAY of these objects
+    // {
+    // room
+    // direction
+    // description
+    // remedy
+    // impact
+    // }
+
+    await prisma.projectFloor
+      .update({
+        where: {
+          id: Number(floorId),
+        },
+        data: {
+          report: finalReport,
+        },
+      })
+      .then(() => {
+        res.json({
+          message: "Final Report Submitted",
+        });
+      })
+      .catch(() => {
+        res.status(201).json({
+          message: "Unable to update final report",
+        });
+        return;
+      });
+  } catch {
+    res.status(201).json({
+      message: "Unable to update final report",
     });
   }
 };

@@ -1,7 +1,8 @@
 import express from "express";
-import { generateReport } from "../controller/report";
+import { generateReport, setReport } from "../controller/report";
 
 const router = express.Router();
 
-router.post("/:floorId", generateReport);
+router.post("/genreport/:floorId", generateReport);
+router.put("/submitreport/:floorId", setReport);
 export default router;
