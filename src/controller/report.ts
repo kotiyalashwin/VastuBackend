@@ -23,6 +23,14 @@ export const generateReport = async (req: Request, res: Response) => {
     }));
 
     const report = await GenerateReport(annotations);
+    await prisma.projectFloor.update({
+      where: {
+        id: Number(floorId),
+      },
+      data: {
+        status: "REVIEWING",
+      },
+    });
 
     if (!report) {
       throw new Error();

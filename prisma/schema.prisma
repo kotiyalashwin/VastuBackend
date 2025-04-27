@@ -74,7 +74,7 @@ model ProjectFloor{
   final_annotated_img String?    @default("")
   marked_compass_angle Int?   
   marked_indicator_angle Int?
-  status      Status    @default(NEW)
+  status      Status    @default(SUBMITTED)
   projectId     Int
   report        Json?
   modified      Boolean?  @default(false)
@@ -116,7 +116,6 @@ model AssetData {
 }
 
 enum Status{
-  NEW
   SUBMITTED
   REVIEWING
   COMPLETED
