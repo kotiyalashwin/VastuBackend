@@ -98,10 +98,7 @@ export const getCreatedProjects = async (
         },
       });
       if (!project) {
-        res.status(500).json({
-          message: "No project found",
-        });
-        return;
+        res.json([]);
       }
 
       res.json(project);
@@ -114,10 +111,7 @@ export const getCreatedProjects = async (
         },
       });
       if (!project) {
-        res.status(500).json({
-          message: "No project found",
-        });
-        return;
+        res.json([]);
       }
 
       res.json(project);
@@ -147,11 +141,6 @@ export const selectForReview = async (req: authRequest, res: Response) => {
       });
       return;
     }
-
-    await prisma.project.update({
-      where: { id: projectId, consultantId: consUID },
-      data: { status: "REVIEWING" },
-    });
 
     res.status(200).json({
       message: "Successfully selected project for review",

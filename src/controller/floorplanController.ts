@@ -22,9 +22,7 @@ export const imageUpload = async (
     const { projectId } = req.params;
     const { marked_compass_angle, marked_indicator_angle } = req.body || null;
     const floorId = req.body.floorId || null;
-    const role = req.role; // role
-
-    //ERROR
+    const role = req.role;
 
     if (!req.files || !req.files.image) {
       res.status(400).json({ message: "File is required" });
@@ -120,60 +118,6 @@ export const imageUpload = async (
     });
   }
 };
-
-// export const newFloor = async (
-//   req: authRequest,
-//   res: Response
-// ): Promise<void> => {
-//   try {
-//     const body = req.body;
-//     // console.log(body);
-//     const projectId = req.params.id;
-//     // const { success } = newFloorSchema.safeParse(body);
-
-//     // if (!success) {
-//     //   res.status(500).json({
-//     //     error: "Invalid Inputs",
-//     //   });
-//     //   return;
-//     // }
-
-//     const { rawImg, markedImg, floorNumber, annotatedImg, description, rooms } =
-//       body;
-
-//     // console.log(rooms);
-
-//     // try {
-//     await prisma.projectFloor.create({
-//       data: {
-//         floornumber: floorNumber,
-//         raw_img: rawImg,
-//         marked_img: markedImg,
-//         description: description,
-//         annotated_img: annotatedImg,
-//         projectId: Number(projectId),
-//         annotations: rooms, //null
-//       },
-//     });
-
-//     await prisma.project.update({
-//       where: { id: Number(projectId) },
-//       data: {
-//         status: "SUBMITTED",
-//       },
-//     });
-
-//     res.status(200).json({
-//       message: "Floor Plan added successfully",
-//     });
-//   } catch (e) {
-//     console.error("Error creating new floorplan:", e);
-//     res.status(500).json({
-//       message: "Error creating new floorplan",
-//     });
-//   }
-// };
-
 export const getFloorPlans = async (
   req: authRequest,
   res: Response

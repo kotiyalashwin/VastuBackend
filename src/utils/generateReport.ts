@@ -1,6 +1,3 @@
-import e = require("express");
-import fs from "fs";
-import path = require("path");
 import prisma from "../db";
 
 // const vastuData = JSON.parse(

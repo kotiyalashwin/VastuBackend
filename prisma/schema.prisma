@@ -18,9 +18,9 @@ model Account {
   email        String      @unique
   name         String
   role         Role
-  user         User?       @relation(fields: [userId], references: [id])
+  user         User?       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId       String?      @unique
-  consultant   Consultant? @relation(fields: [consultantId], references: [id])
+  consultant   Consultant? @relation(fields: [consultantId], references: [id], onDelete: Cascade)
   consultantId String?    @unique
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
@@ -58,9 +58,9 @@ model Project{
   floors      ProjectFloor[]
   createdAt   DateTime  @default(now())
   modified    Boolean   @default(false)
-  status      Status    @default(NEW)
-  user        User      @relation(fields: [userId] , references: [id])
- consultant Consultant? @relation(fields: [consultantId], references: [uniqueId])
+
+  user        User      @relation(fields: [userId] , references: [id], onDelete: Cascade)
+ consultant Consultant? @relation(fields: [consultantId], references: [uniqueId], onDelete: Cascade)
 } 
 
 model ProjectFloor{
@@ -74,6 +74,7 @@ model ProjectFloor{
   final_annotated_img String?    @default("")
   marked_compass_angle Int?   
   marked_indicator_angle Int?
+  status      Status    @default(NEW)
   projectId     Int
   report        Json?
   modified      Boolean?  @default(false)
@@ -84,7 +85,7 @@ model ProjectFloor{
 model Annotations{
   id Int @id @default(autoincrement())
   projectfloor  Int
-  projectFloor ProjectFloor @relation(fields: [projectfloor], references: [id])
+  projectFloor ProjectFloor @relation(fields: [projectfloor], references: [id], onDelete: Cascade)
   note String
   start Int
   end Int
@@ -109,7 +110,7 @@ model AssetData {
   direction   String
   remedy      String?
   impact      String?
-  asset       Assets     @relation(fields: [asset_name],references: [asset_name])
+  asset       Assets     @relation(fields: [asset_name],references: [asset_name], onDelete: Cascade)
 
   @@unique([asset_name , direction])
 }

@@ -27,14 +27,6 @@ export const generateReport = async (req: Request, res: Response) => {
     if (!report) {
       throw new Error();
     }
-    // await prisma.projectFloor.update({
-    //   where: {
-    //     id: floorId,
-    //   },
-    //   data: {
-    //     report: report,
-    //   },
-    // });
 
     res.json(report);
   } catch {
@@ -71,9 +63,10 @@ export const setReport = async (req: Request, res: Response) => {
         },
         data: {
           report: finalReport,
+          status: "COMPLETED",
         },
       })
-      .then(() => {
+      .then(async () => {
         res.json({
           message: "Final Report Submitted",
         });

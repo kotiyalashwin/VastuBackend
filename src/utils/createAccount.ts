@@ -1,4 +1,3 @@
-import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { Response } from "express";
 import { generateUniqueId } from "./consultantUniqueId";
