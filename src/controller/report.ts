@@ -118,6 +118,7 @@ export const allReport = async (req: Request, res: Response) => {
   const data = allreport?.floors;
 
   if (!data) {
-    res.status(201).json(data);
+    res.status(201).json({ message: "Unable to get Report" });
   }
+  res.json(data);
 };
