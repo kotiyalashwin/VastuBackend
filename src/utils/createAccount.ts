@@ -11,7 +11,7 @@ export const createAccount = async (body: any, res: Response) => {
 
   if (existing) {
     res.status(503).json({
-      message: "User Alreaddy Exist",
+      message: "User already Exist",
     });
     return;
   }

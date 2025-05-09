@@ -1,6 +1,7 @@
 import express from "express";
 require("dotenv").config();
 import cors, { CorsOptions } from "cors";
+import { adminRouter } from "./admin/main";
 const app = express();
 const mainRouter = require("./routes/main");
 const port = process.env.PORT || 3000;
@@ -41,6 +42,7 @@ app.use(cors(corsOptions));
 app.use(require("cookie-parser")());
 app.use(express.json());
 app.use("/api/v1", mainRouter);
+app.use("/api/v1/admin", adminRouter);
 
 app.listen(port, () => {
   console.log(`Vastu Backend Running on port ${port} `);
