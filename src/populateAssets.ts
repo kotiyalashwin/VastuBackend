@@ -1,5 +1,4 @@
 // /src/populateAssets.ts
-import { PrismaClient } from "@prisma/client";
 import prisma from "./db";
 import * as fs from "fs";
 import * as path from "path";

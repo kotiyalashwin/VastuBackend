@@ -28,7 +28,7 @@ export const signUp = async (req: Request, res: Response): Promise<void> => {
     const { success } = AccountSignUpSchema.safeParse(body);
 
     if (!success) {
-      res.json({ err: "Invalid Inputs" });
+      res.status(201).json({ err: "Invalid Inputs" });
       return;
     }
 
@@ -71,7 +71,7 @@ export const signIn = async (req: Request, res: Response): Promise<void> => {
 
   if (!success) {
     res.status(401).json({
-      msg: "Invalid Inputs",
+      message: "Invalid Inputs",
     });
     return;
   }
@@ -172,7 +172,7 @@ export const getSession = async (
     const role = req.role;
 
     if (!userId || !role) {
-      res.json({
+      res.status(403).json({
         message: "session error : userId or role not in reques",
         isAuthenticated: false,
       });
@@ -210,6 +210,7 @@ export const getSession = async (
       }
 
       res.json({
+        uniqueCode: account.consultantId,
         username: account.name,
         userRole: account.role,
         isAuthenticated: true,

@@ -41,6 +41,7 @@ app.use(cors(corsOptions));
 app.use(require("cookie-parser")());
 app.use(express.json());
 app.use("/api/v1", mainRouter);
+app.use("api/v1/admin");
 
 app.listen(port, () => {
   console.log(`Vastu Backend Running on port ${port} `);

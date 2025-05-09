@@ -25,7 +25,7 @@ export const createProject = async (
 
   try {
     if (!success) {
-      res.status(500).json({ message: "Invalid Inputs" });
+      res.status(201).json({ message: "Invalid Inputs" });
       return;
     }
 
@@ -87,7 +87,7 @@ export const getCreatedProjects = async (
 
   try {
     if (!userID || !role) {
-      res.json({ message: "Invalid User" });
+      res.status(201).json({ message: "Invalid User" });
       return;
     }
 
