@@ -91,3 +91,33 @@ export const setReport = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const allReport = async (req: Request, res: Response) => {
+  const projectId = req.params.projectId || null;
+
+  if (!projectId) {
+    res.status(201).json({ message: "No Project Found" });
+    return;
+  }
+
+  const allreport = await prisma.project.findUnique({
+    where: {
+      id: Number(projectId),
+    },
+    select: {
+      // numFloors: true,
+      floors: {
+        select: {
+          floornumber: true,
+          report: true,
+        },
+      },
+    },
+  });
+
+  const data = allreport?.floors;
+
+  if (!data) {
+    res.status(201).json(data);
+  }
+};
