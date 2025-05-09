@@ -183,7 +183,7 @@ export const getAnnotations = async (req: Request, res: Response) => {
     const { floorId } = req.params;
 
     if (!floorId) {
-      res.status(201).json({
+      res.status(503).json({
         message: "Floor is Required",
       });
       return;
@@ -199,7 +199,7 @@ export const getAnnotations = async (req: Request, res: Response) => {
     });
 
     if (!prev_annotatios) {
-      res.status(201).json({
+      res.status(503).json({
         message: "Unable to fetch annotaions",
       });
       return;

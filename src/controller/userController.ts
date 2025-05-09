@@ -21,14 +21,14 @@ export const signUp = async (req: Request, res: Response): Promise<void> => {
 
     if (!body) {
       // Send the response and return immediately
-      res.status(201).json({ err: "Invalid Request" });
+      res.status(503).json({ err: "Invalid Request" });
       return;
     }
 
     const { success } = AccountSignUpSchema.safeParse(body);
 
     if (!success) {
-      res.status(201).json({ err: "Invalid Inputs" });
+      res.status(503).json({ err: "Invalid Inputs" });
       return;
     }
 

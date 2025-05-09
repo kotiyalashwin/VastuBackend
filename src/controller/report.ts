@@ -38,7 +38,7 @@ export const generateReport = async (req: Request, res: Response) => {
 
     res.json(report);
   } catch {
-    res.status(201).json({
+    res.status(503).json({
       message: "Unable to generate report",
     });
   }
@@ -48,7 +48,7 @@ export const setReport = async (req: Request, res: Response) => {
   try {
     const floorId = req.params.floorId;
     if (!floorId) {
-      res.status(201).json({
+      res.status(503).json({
         message: "Floor id required in params",
       });
       return;
@@ -80,13 +80,13 @@ export const setReport = async (req: Request, res: Response) => {
         });
       })
       .catch(() => {
-        res.status(201).json({
+        res.status(503).json({
           message: "Unable to update final report",
         });
         return;
       });
   } catch {
-    res.status(201).json({
+    res.status(503).json({
       message: "Unable to update final report",
     });
   }
@@ -96,7 +96,7 @@ export const allReport = async (req: Request, res: Response) => {
   const projectId = req.params.projectId || null;
 
   if (!projectId) {
-    res.status(201).json({ message: "No Project Found" });
+    res.status(503).json({ message: "No Project Found" });
     return;
   }
 
@@ -118,7 +118,7 @@ export const allReport = async (req: Request, res: Response) => {
   const data = allreport?.floors;
 
   if (!data) {
-    res.status(201).json({ message: "Unable to get Report" });
+    res.status(503).json({ message: "Unable to get Report" });
   }
   res.json(data);
 };

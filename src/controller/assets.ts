@@ -5,7 +5,7 @@ export const getAssets = async (req: Request, res: Response) => {
     const assets = await fetchAssets();
 
     if (!assets) {
-      res.status(201).json({
+      res.status(503).json({
         message: "No Assets Available",
       });
       return;
@@ -13,7 +13,7 @@ export const getAssets = async (req: Request, res: Response) => {
 
     res.json(assets);
   } catch {
-    res.status(201).json({
+    res.status(503).json({
       message: "Unable to get Available Assets",
     });
   }

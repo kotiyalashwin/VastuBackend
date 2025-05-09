@@ -28,7 +28,7 @@ export const deleteUser = async (req: authRequest, res: Response) => {
     res.json({ message: "Account deleted successfully" });
   } catch (e) {
     res
-      .status(201)
+      .status(503)
       .json({ message: "Unable to delete account at this moment" });
   }
 };

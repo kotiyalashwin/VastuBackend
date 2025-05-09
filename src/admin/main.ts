@@ -12,7 +12,7 @@ adminRouter.get("/projects", async (req, res) => {
     });
     res.json(noconsproj);
   } catch {
-    res.status(201).json({ message: "Unable to get projects" });
+    res.status(503).json({ message: "Unable to get projects" });
   }
 });
 
@@ -29,7 +29,7 @@ adminRouter.put("/addcons/:consid", async (req, res) => {
     }
 
     if (!consId) {
-      res.status(201).json({
+      res.status(503).json({
         message: "Consultant ID required",
       });
       return;
@@ -58,7 +58,7 @@ adminRouter.put("/addcons/:consid", async (req, res) => {
 
     res.json({ message: "Consultant added successfully" });
   } catch {
-    res.status(201).json({
+    res.status(503).json({
       message: "Unable to add consultant",
     });
   }
