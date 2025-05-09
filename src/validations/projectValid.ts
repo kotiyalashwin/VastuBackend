@@ -1,9 +1,9 @@
-import Zod from "zod";
+import { z } from "zod";
 
-export const newProjectSchema = Zod.object({
-  name: Zod.string(),
-  type: Zod.string(),
-  floorcount: Zod.number(),
-  address: Zod.string(),
-  consultantid: Zod.string().optional(),
+export const newProjectSchema = z.object({
+  name: z.string(),
+  type: z.string(),
+  floorcount: z.number(),
+  address: z.string(),
+  consultantid: z.string().optional().nullable(),
 });
