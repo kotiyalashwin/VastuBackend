@@ -33,6 +33,8 @@ model User {
   password     String
   accounts  Account[]
   project   Project[]
+  resetToken String?
+  resetTokenExpiry DateTime?
 }
 
 model Consultant {
@@ -96,6 +98,8 @@ model Annotations{
   width Int
   height Int
 }
+
+
 
 
 model Assets {

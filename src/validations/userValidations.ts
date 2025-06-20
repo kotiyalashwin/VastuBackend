@@ -13,4 +13,14 @@ export const userSignInSchema = Zod.object({
   password: Zod.string().min(6),
 });
 
+export const forgotPassSchema = Zod.object({
+  email: Zod.string().email("Enter a Valid Email"),
+});
+
+export const resetPassSchema = Zod.object({
+  password: Zod.string().min(6),
+  token: Zod.string(),
+  userId: Zod.string(),
+});
+
 export type signUpInput = Zod.infer<typeof AccountSignUpSchema>;

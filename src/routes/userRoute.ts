@@ -5,6 +5,8 @@ import {
   signIn,
   getSession,
   logout,
+  forgotPassword,
+  resetPassword,
 } from "../controller/userController";
 
 const router = express.Router();
@@ -16,5 +18,9 @@ router.post("/signin", signIn);
 router.post("/logout", authmiddleware, logout);
 
 router.get("/session", authmiddleware, getSession);
+
+router.post("/forgot-password", forgotPassword);
+
+router.post("/reset-password", resetPassword);
 
 export default router;
